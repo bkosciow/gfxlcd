@@ -1,0 +1,2 @@
+chmod 644 gfxlcd/tests/*.py
+python3 -m nose --with-specplugin
