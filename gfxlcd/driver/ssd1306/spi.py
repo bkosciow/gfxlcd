@@ -1,7 +1,7 @@
 """SPI+GPIO connection driver for SSD1306"""
-import spidev # pylint: disable=I0011,F0401
-import RPi.GPIO as GPIO # pylint: disable=I0011,F0401
 import time
+import spidev  # pylint: disable=I0011,F0401
+import RPi.GPIO as GPIO  # pylint: disable=I0011,F0401
 from gfxlcd.abstract.driver import Driver
 GPIO.setmode(GPIO.BCM)
 

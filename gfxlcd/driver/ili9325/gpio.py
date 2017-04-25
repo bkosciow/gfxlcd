@@ -1,6 +1,6 @@
 """GPIO communication driver"""
 import time
-import RPi.GPIO # pylint: disable=I0011,F0401
+import RPi.GPIO  # pylint: disable=I0011,F0401
 from gfxlcd.abstract.driver import Driver
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 

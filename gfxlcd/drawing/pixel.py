@@ -1,14 +1,24 @@
+"""Common drawing functions"""
 import math
 
 
 class Pixel(object):
-    def __init__(self):
+    """Pixel class"""
+    def __init__(self, driver):
         self.options['color'] = {
             'R': 255, 'G': 255, 'B': 255
         }
         self.options['background_color'] = {
             'R': 0, 'G': 0, 'B': 0,
         }
+
+    def draw_pixel(self, pos_x, pos_y):
+        """dummy fuction"""
+        pass
+
+    def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
+        """dummy fuction"""
+        pass
 
     def draw_rect(self, x1, y1, x2, y2):
         """draw a rectangle"""

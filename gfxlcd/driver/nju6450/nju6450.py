@@ -7,7 +7,7 @@ class NJU6450(Page, Chip):
     """Class for an LCD with NJU6450 chip"""
     def __init__(self, width, height, driver, auto_flush=True):
         Chip.__init__(self, width, height, driver, auto_flush)
-        Page.__init__(self)
+        Page.__init__(self, driver)
 
     def init(self):
         """initialize display"""
@@ -23,7 +23,7 @@ class NJU6450(Page, Chip):
 
     def set_xy(self, pos_x, pos_y):
         """set xy pos"""
-        if x < self.width/2:
+        if pos_x < self.width/2:
             self.driver.cmd(0xB8 | pos_y, 0)
             self.driver.cmd(0x00 | pos_x, 0)
         else:

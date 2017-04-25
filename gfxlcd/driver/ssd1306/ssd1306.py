@@ -7,7 +7,7 @@ class SSD1306(Page, Chip):
     """Class for an LCD with SSD306 chip"""
     def __init__(self, width, height, driver, auto_flush=True):
         Chip.__init__(self, width, height, driver, auto_flush)
-        Page.__init__(self)
+        Page.__init__(self, driver)
 
     def init(self):
         """inits a device"""
