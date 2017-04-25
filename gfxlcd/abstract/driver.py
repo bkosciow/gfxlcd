@@ -1,3 +1,4 @@
+"""Interface for communication driver"""
 import abc
 
 

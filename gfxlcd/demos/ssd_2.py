@@ -24,7 +24,7 @@ def hole(o, x, y):
 
 def draw_points(o):
     for _ in range(0, 50):
-        hole(o, random.randint(2,o.width - 10), random.randint(2,o.height-10))
+        hole(o, random.randint(2, o.width-  10), random.randint(2, o.height-10))
 
 
 def draw_net(o):
@@ -36,6 +36,7 @@ def draw_net(o):
     while s < o.height-1:
         o.draw_line(0, s, o.width-1, s)
         s += 10
+
 
 lcd_oled = SSD1306(128, 64, SPI())
 lcd_oled.init()

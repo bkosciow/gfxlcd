@@ -1,3 +1,4 @@
+"""NJU6450 chip"""
 from gfxlcd.drawing.page import Page
 from gfxlcd.abstract.chip import Chip
 
@@ -20,14 +21,14 @@ class NJU6450(Page, Chip):
             self.driver.cmd(cmd, 0)
             self.driver.cmd(cmd, 1)
 
-    def set_xy(self, x, y):
+    def set_xy(self, pos_x, pos_y):
         """set xy pos"""
         if x < self.width/2:
-            self.driver.cmd(0xB8 | y, 0)
-            self.driver.cmd(0x00 | x, 0)
+            self.driver.cmd(0xB8 | pos_y, 0)
+            self.driver.cmd(0x00 | pos_x, 0)
         else:
-            self.driver.cmd(0xB8 | y, 1)
-            self.driver.cmd(0x00 | (x - self.width//2), 1)
+            self.driver.cmd(0xB8 | pos_y, 1)
+            self.driver.cmd(0x00 | (pos_x - self.width//2), 1)
 
     def _converted_background_color(self):
         """convert RGB background to available color"""

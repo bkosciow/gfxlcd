@@ -17,6 +17,7 @@ def hole(x, y):
     o.draw_pixel(x, y + 3)
     o.draw_pixel(x+4, y + 3)
 
+
 drv = GPIO()
 o = NJU6450(122, 32, drv)
 

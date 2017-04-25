@@ -1,27 +1,30 @@
+"""ILI9325 chip driver"""
 import time
 from gfxlcd.drawing.area import Area
 from gfxlcd.abstract.chip import Chip
 
 
 class ILI9325(Area, Chip):
-    """CLass for ILI9325 based LCD"""
+    """Class for ILI9325 based LCD"""
     def __init__(self, width, height, driver):
         Chip.__init__(self, width, height, driver, True)
-        Area.__init__(self)
+        Area.__init__(self, driver)
 
     def _converted_background_color(self):
         """color from 8-8-8 to 5-6-5"""
         rgb = self.options['background_color']['R'] << 16 | \
-              self.options['background_color']['G'] << 8 | \
-              self.options['background_color']['B']
-        return ((rgb & 0x00f80000) >> 8) | ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
+            self.options['background_color']['G'] << 8 | \
+            self.options['background_color']['B']
+        return ((rgb & 0x00f80000) >> 8) |\
+            ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
 
     def _converted_color(self):
         """color from 8-8-8 to 5-6-5"""
         rgb = self.options['color']['R'] << 16 | \
-              self.options['color']['G'] << 8 | \
-              self.options['color']['B']
-        return ((rgb & 0x00f80000) >> 8) | ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
+            self.options['color']['G'] << 8 | \
+            self.options['color']['B']
+        return ((rgb & 0x00f80000) >> 8) |\
+            ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
 
     def init(self):
         """init display"""

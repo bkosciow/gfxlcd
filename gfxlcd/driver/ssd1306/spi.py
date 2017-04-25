@@ -1,13 +1,13 @@
-import spidev
-import RPi.GPIO as GPIO
-
-
-GPIO.setmode(GPIO.BCM)
+"""SPI+GPIO connection driver for SSD1306"""
+import spidev # pylint: disable=I0011,F0401
+import RPi.GPIO as GPIO # pylint: disable=I0011,F0401
 import time
 from gfxlcd.abstract.driver import Driver
+GPIO.setmode(GPIO.BCM)
 
 
 class SPI(Driver):
+    """SPI driver"""
     def __init__(self):
         self.pins = {
             'RST': 13,
@@ -22,7 +22,7 @@ class SPI(Driver):
             GPIO.output(self.pins[pin], 0)
 
         spi = spidev.SpiDev()
-        spi.open(0,0)
+        spi.open(0, 0)
         spi.max_speed_hz = 8000000
         spi.mode = 0
         self.spi = spi
@@ -46,4 +46,3 @@ class SPI(Driver):
         GPIO.output(self.pins['DC'], 1)
         self.spi.xfer2([data])
         GPIO.output(self.pins['DC'], 0)
-

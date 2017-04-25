@@ -1,41 +1,49 @@
+"""Area drawing algorithm"""
 import itertools
 from gfxlcd.drawing.pixel import Pixel
 
 
 class Area(Pixel):
-    """Page drawing algorithm"""
-    def __init__(self):
+    """Area drawing algorithm"""
+    def __init__(self, driver):
+        self.driver = driver
         Pixel.__init__(self)
 
     def init(self):
+        """additional initialization"""
         pass
 
-    def draw_pixel(self, x, y):
+    def draw_pixel(self, pos_x, pos_y):
         """draw one pixel"""
-        self._set_area(x, y, x, y)
+        self._set_area(pos_x, pos_y, pos_x, pos_y)
         self.driver.data(self._converted_color(), None)
 
     def _set_area(self, x1, y1, x2, y2):
         """select area to work with"""
-        self.driver.cmd_data(0x0020, x1)
-        self.driver.cmd_data(0x0021, y1)
-        self.driver.cmd_data(0x0050, x1)
-        self.driver.cmd_data(0x0052, y1)
-        self.driver.cmd_data(0x0051, x2)
-        self.driver.cmd_data(0x0053, y2)
+        self.driver.cmd(0x0020, None)
+        self.driver.data(x1, None)
+        self.driver.cmd(0x0021, None)
+        self.driver.data(y1, None)
+        self.driver.cmd(0x0050, None)
+        self.driver.data(x1, None)
+        self.driver.cmd(0x0052, None)
+        self.driver.data(y1, None)
+        self.driver.cmd(0x0051, None)
+        self.driver.data(x2, None)
+        self.driver.cmd(0x0053, None)
+        self.driver.data(y2, None)
         self.driver.cmd(0x0022, None)
 
-
-    def _draw_vertical_line(self, x, y, length):
+    def _draw_vertical_line(self, pos_x, pos_y, length):
         """draw vertical line"""
-        self._set_area(x, y, x, y + length)
+        self._set_area(pos_x, pos_y, pos_x, pos_y + length)
         color = self._converted_color()
         for _ in itertools.repeat(None, length):
             self.driver.data(color, None)
 
-    def _draw_horizontal_line(self, x, y, length):
+    def _draw_horizontal_line(self, pos_x, pos_y, length):
         """draw horizontal line"""
-        self._set_area(x, y, x + length, y)
+        self._set_area(pos_x, pos_y, pos_x + length, pos_y)
         color = self._converted_color()
         for _ in itertools.repeat(None, length):
             self.driver.data(color, None)
@@ -83,23 +91,23 @@ class Area(Pixel):
             length = height / step
             steps = self._calculate_steps(length, step, height)
 
-        dy = 0
-        dx = 0
+        delta_y = 0
+        delta_x = 0
         for idx, step in enumerate(steps):
             if horizontal:
                 self._draw_horizontal_line(
-                    int(x1 + dx),
+                    int(x1 + delta_x),
                     int(y1 + (idx * offset_y)),
                     int(step)
                 )
-                dx += step * offset_x
+                delta_x += step * offset_x
             else:
                 self._draw_vertical_line(
                     int(x1 + (idx * offset_x)),
-                    int(y1 + dy),
+                    int(y1 + delta_y),
                     int(step)
                 )
-                dy += step * offset_y
+                delta_y += step * offset_y
 
     def fill_rect(self, x1, y1, x2, y2):
         """fill an area"""

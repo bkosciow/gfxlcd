@@ -1,10 +1,10 @@
 import RPi.GPIO
 import sys
-RPi.GPIO.setmode(RPi.GPIO.BCM)
 sys.path.append("../../")
 from gfxlcd.driver.nju6450.gpio import GPIO
 from gfxlcd.driver.nju6450.nju6450 import NJU6450
 import random
+RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 
 def hole(o, x, y):
@@ -24,7 +24,7 @@ def hole(o, x, y):
 
 def draw_points(o):
     for _ in range(0, 50):
-        hole(o, random.randint(2,o.width - 10), random.randint(2,o.height-10))
+        hole(o, random.randint(2, o.width-10), random.randint(2, o.height-10))
 
 
 def draw_net(o):
@@ -36,6 +36,7 @@ def draw_net(o):
     while s < o.height-1:
         o.draw_line(0, s, o.width-1, s)
         s += 10
+
 
 lcd_nju = NJU6450(122, 32, GPIO())
 lcd_nju.init()
