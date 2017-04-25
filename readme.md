@@ -16,7 +16,7 @@ Wiring is below
 
 Initialization
 ===
-##SSD1306
+## SSD1306
 ### SPI
 
     from driver.ssd1306.spi import SPI
@@ -35,7 +35,7 @@ If you want to set your own pins:
     o = SSD1306(128, 64, drv)
     o.init()
     
-##NJU6450
+## NJU6450
 ### GPIO
     
     from gfxlcd.driver.nju6450.gpio import GPIO
@@ -66,7 +66,7 @@ Custom wiring:
     o = NJU6450(122, 32, drv)
     o.init()
 
-##ILI9325
+## ILI9325
 ### GPIO
 
     from gfxlcd.driver.ili9325.gpio import GPIO
@@ -99,17 +99,17 @@ Custom pins:
 
 Drawing functions
 ===
-draw_pixel
+draw_pixel(x, y)
 
-draw_line
+draw_line(from_x, from_y, to_x, to_y)
 
-draw_rect
+draw_rect(x1, y1, x2, y2)
 
-draw_circle
+draw_circle(x1, y1, radius)
 
-draw_arc
+draw_arc(x1, y1, radius, from_angle, to_angle
 
-fill_rect
+fill_rect(x1, y1, x2, y2)
 
 
 Colours
@@ -121,7 +121,7 @@ lcd.background_color = (r, g ,b)
 Wiring
 ===
 
-##SSD1306
+## SSD1306
 ### SPI
 SPI wiring + 2 additional pins. Defaults:
 
@@ -134,7 +134,7 @@ SPI wiring + 2 additional pins. Defaults:
     D/C   ----------- G6
 
 
-##NJU6450
+## NJU6450
 ### GPIO
 Default wiring:
 
@@ -159,7 +159,7 @@ Default wiring:
     17 (A)   ------- +5V
     18 (K)   ------- GND
 
-##ILI9325
+## ILI9325
 ### GPIO
 Default:
 
