@@ -36,7 +36,8 @@ class SSD1306(Page, Chip):
         self.driver.cmd(0xd3)  # set display offset
         self.driver.cmd(0x00)  # not offset
 
-        self.driver.cmd(0xd5)  # set display clock divide ratio/oscillator frequency
+        # set display clock divide ratio/oscillator frequency
+        self.driver.cmd(0xd5)
         self.driver.cmd(0x80)  # set divide ratio
 
         self.driver.cmd(0xd9)  # set pre-charge period

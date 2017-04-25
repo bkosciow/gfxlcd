@@ -101,8 +101,8 @@ class Page(Pixel, metaclass=abc.ABCMeta):
 
         page = start_page
         for value in rows:
-            for x in range(pos_x2-pos_x1+1):
-                self.buffer[pos_x1+x][page] |= value
+            for x_diff in range(pos_x2-pos_x1+1):
+                self.buffer[pos_x1+x_diff][page] |= value
             page += 1
 
     def get_page_value(self, column, page):

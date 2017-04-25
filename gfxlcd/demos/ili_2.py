@@ -1,9 +1,9 @@
 import RPi.GPIO
 import sys
+import random
 sys.path.append("../../")
 from gfxlcd.driver.ili9325.gpio import GPIO as ILIGPIO
 from gfxlcd.driver.ili9325.ili9325 import ILI9325
-import random
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 

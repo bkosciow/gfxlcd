@@ -1,9 +1,9 @@
 import RPi.GPIO
 import sys
+import random
 sys.path.append("../../")
 from gfxlcd.driver.nju6450.gpio import GPIO
 from gfxlcd.driver.nju6450.nju6450 import NJU6450
-import random
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 

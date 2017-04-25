@@ -1,1 +1,2 @@
-__author__ = 'kosci'
+"""GfxLCD module"""
+__author__ = 'Bartosz Kosciow'
