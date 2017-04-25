@@ -1,1 +1,2 @@
-__author__ = 'kosci'
+"""abstracts/interfaces"""
+__author__ = 'Bartosz Kosciow'

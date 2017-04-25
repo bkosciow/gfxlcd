@@ -29,6 +29,7 @@ def draw_net(o):
         o.draw_line(0, s, o.width-1, s)
         s += 10
 
+
 drv = GPIO()
 o = ILI9325(240, 320, drv)
 

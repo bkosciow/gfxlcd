@@ -1,11 +1,13 @@
+"""NJU6450 gpio driver class"""
 import time
-import RPi.GPIO
+import RPi.GPIO  # pylint: disable=I0011,F0401
 from gfxlcd.abstract.driver import Driver
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 
 class GPIO(Driver):
+    """GPIO driver"""
     def __init__(self):
         self.pins = {
             'A0': 17,
@@ -44,15 +46,15 @@ class GPIO(Driver):
         RPi.GPIO.output(self.pins['E1'], 1)
         RPi.GPIO.output(self.pins['E2'], 1)
 
-    def cmd(self, char, enable):
+    def cmd(self, data, enable):
         """send command"""
         RPi.GPIO.output(self.pins['A0'], 0)
-        self.send(char, enable)
+        self.send(data, enable)
 
-    def data(self, char, enable):
+    def data(self, data, enable):
         """send data"""
         RPi.GPIO.output(self.pins['A0'], 1)
-        self.send(char, enable)
+        self.send(data, enable)
 
     def send(self, data, enable):
         """Write to gpio"""

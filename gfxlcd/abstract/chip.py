@@ -1,7 +1,9 @@
+"""Chip interface"""
 import abc
 
 
 class Chip(metaclass=abc.ABCMeta):
+    """Chip class"""
     def __init__(self, width, height, driver, auto_flush):
         self.options = {}
         self._width = width
@@ -31,20 +33,24 @@ class Chip(metaclass=abc.ABCMeta):
 
     @property
     def color(self):
+        """get RGB colour"""
         return self.options['color']
 
     @color.setter
     def color(self, rgb):
+        """set (R, G, B) colour """
         self.options['color'] = {
             'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
         }
 
     @property
     def background_color(self):
+        """get background colour"""
         return self.options['background_color']
 
     @background_color.setter
     def background_color(self, rgb):
+        """set (R, G, B) background colour """
         self.options['background_color'] = {
             'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
         }
@@ -65,31 +71,31 @@ class Chip(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def draw_pixel(self, x, y):
+    def draw_pixel(self, pos_x, pos_y):
         """draw a pixel at x,y"""
         pass
 
     @abc.abstractmethod
-    def draw_line(self, x1, y1, x2, y2):
+    def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw a line from point x1,y1 to x2,y2"""
         pass
 
     @abc.abstractmethod
-    def draw_rect(self, x1, y1, x2, y2):
+    def draw_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw a rectangle"""
         pass
 
     @abc.abstractmethod
-    def draw_circle(self, x, y, r):
+    def draw_circle(self, pos_x, pos_y, radius):
         """draw a circle"""
         pass
 
     @abc.abstractmethod
-    def draw_arc(self, x, y, radius, start, end):
+    def draw_arc(self, pos_x, pos_y, radius, start, end):
         """draw an arc"""
         pass
 
     @abc.abstractmethod
-    def fill_rect(self, x1, y1, x2, y2):
+    def fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw a filled rectangle"""
         pass

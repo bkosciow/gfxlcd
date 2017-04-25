@@ -1,4 +1,6 @@
 import random
+import sys
+sys.path.append("../../")
 from gfxlcd.driver.nju6450.gpio import GPIO
 from gfxlcd.driver.nju6450.nju6450 import NJU6450
 
@@ -16,6 +18,7 @@ def hole(x, y):
     o.draw_pixel(x+4, y + 2)
     o.draw_pixel(x, y + 3)
     o.draw_pixel(x+4, y + 3)
+
 
 drv = GPIO()
 o = NJU6450(122, 32, drv)

@@ -1,10 +1,10 @@
 import RPi.GPIO
 import sys
-RPi.GPIO.setmode(RPi.GPIO.BCM)
+import random
 sys.path.append("../../")
 from gfxlcd.driver.ssd1306.spi import SPI
 from gfxlcd.driver.ssd1306.ssd1306 import SSD1306
-import random
+RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 
 def hole(o, x, y):
@@ -24,7 +24,10 @@ def hole(o, x, y):
 
 def draw_points(o):
     for _ in range(0, 50):
-        hole(o, random.randint(2,o.width - 10), random.randint(2,o.height-10))
+        hole(o,
+             random.randint(2, o.width - 10),
+             random.randint(2, o.height - 10)
+        )
 
 
 def draw_net(o):
@@ -36,6 +39,7 @@ def draw_net(o):
     while s < o.height-1:
         o.draw_line(0, s, o.width-1, s)
         s += 10
+
 
 lcd_oled = SSD1306(128, 64, SPI())
 lcd_oled.init()

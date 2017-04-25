@@ -1,7 +1,9 @@
+"""Interface for communication driver"""
 import abc
 
 
 class Driver(metaclass=abc.ABCMeta):
+    """Driver interface"""
     @abc.abstractmethod
     def init(self):
         """initialize a device"""

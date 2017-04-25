@@ -1,11 +1,12 @@
+"""GPIO communication driver"""
 import time
-import RPi.GPIO
+import RPi.GPIO  # pylint: disable=I0011,F0401
 from gfxlcd.abstract.driver import Driver
-
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 
 class GPIO(Driver):
+    """GPIO communication driver"""
     def __init__(self):
         self.pins = {
             'RS': 27,
@@ -46,10 +47,10 @@ class GPIO(Driver):
             RPi.GPIO.output(self.pins[pin], value)
             bits >>= 1
 
-    def cmd(self, char, enable):
+    def cmd(self, data, enable):
         """send command to display"""
         RPi.GPIO.output(self.pins['RS'], 0)
-        self.send(char, enable)
+        self.send(data, enable)
 
     def send(self, char, enable):
         """send 16bit as 2*8bit"""
@@ -64,9 +65,3 @@ class GPIO(Driver):
         """send data to display"""
         RPi.GPIO.output(self.pins['RS'], 1)
         self.send(data, enable)
-
-    def cmd_data(self, cmd, data):
-        RPi.GPIO.output(self.pins['RS'], 0)
-        self.send(cmd, None)
-        RPi.GPIO.output(self.pins['RS'], 1)
-        self.send(data, None)
