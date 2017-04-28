@@ -121,3 +121,17 @@ class Area(Pixel):
         color = self._converted_background_color()
         for _ in range(0, size):
             self.driver.data(color, None)
+
+    def draw_image(self, pos_x, pos_y, image):
+        """draw a PIL image"""
+        image_file = image.convert('RGB')
+        width, height = image_file.size
+        self._set_area(
+            pos_x,
+            pos_y,
+            pos_x + width - 1,
+            pos_y + height - 1
+        )
+        for r, g, b in list(image_file.getdata()):
+            self.color = (r, g, b)
+            self.driver.data(self._converted_color(), None)

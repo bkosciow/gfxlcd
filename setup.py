@@ -13,11 +13,11 @@ def read(*paths):
 
 setup(
     name='gfxlcd',
-    version='0.1.0',
+    version='0.1.2',
     description='gfxlcd is a handler for grpahical lcds: ILI9328, SSD1306, NJU6450 @ Raspberry Pi.',
     keywords=['gfxlcd', 'raspberry pi' ,'ili9328' ,'ssd1306', 'nju6450', 'lcd', 'graphical lcd'],
     long_description=(read('readme.md')),
-    url='https://bitbucket.org/kosci/charlcd.git',
+    url='https://github.com/bkosciow/gfxlcd',
     license='MIT',
     author='Bartosz Kościów',
     author_email='kosci1@gmail.com',
