@@ -13,6 +13,7 @@ On NJU and SSD uses buffer to keep current content as help for page operations.
 
 Wiring is below
 
+Demos are in demos directory
 
 Initialization
 ===
@@ -111,11 +112,17 @@ draw_arc(x1, y1, radius, from_angle, to_angle
 
 fill_rect(x1, y1, x2, y2)
 
+draw_image(x, y, PIL.Image)
 
 Colours
 ===
 lcd.color = (r, g, b)
+
 lcd.background_color = (r, g ,b)
+
+lcd.threshold = 255 - for images a threshold between black and white (on monochrome)
+
+lcd.transparency_color = [110, 57] #110 - color(s) that are skipped during drawing an image
 
 
 Wiring

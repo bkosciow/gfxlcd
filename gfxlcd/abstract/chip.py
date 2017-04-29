@@ -99,3 +99,8 @@ class Chip(metaclass=abc.ABCMeta):
     def fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw a filled rectangle"""
         pass
+
+    @abc.abstractmethod
+    def draw_image(self, pos_x, pos_y, image):
+        """draw a PIL image"""
+        pass
