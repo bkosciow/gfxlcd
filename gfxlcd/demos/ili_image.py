@@ -15,6 +15,5 @@ LED = 6
 RPi.GPIO.setup(LED, RPi.GPIO.OUT)
 RPi.GPIO.output(LED, 1)
 
-image_file = Image.open("japan_temple_240x320.jpg")
-image_file = image_file.convert('RGB')
+image_file = Image.open("assets/japan_temple_240x320.jpg")
 lcd_tft.draw_image(0, 0, image_file)
