@@ -1,10 +1,10 @@
 import RPi.GPIO
 import sys
+from PIL import Image
 sys.path.append("../../")
 from gfxlcd.driver.ssd1306.spi import SPI
 from gfxlcd.driver.ssd1306.ssd1306 import SSD1306
 RPi.GPIO.setmode(RPi.GPIO.BCM)
-from PIL import Image
 
 lcd_oled = SSD1306(128, 64, SPI())
 lcd_oled.init()

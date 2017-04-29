@@ -121,7 +121,8 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         offset_x = 0
         offset_y = 0
         for stream in list(image_file.getdata()):
-            if stream > self.options['threshold'] and not self._is_transparent(stream):
+            if stream > self.options['threshold'] \
+                    and not self._is_transparent(stream):
                 self.draw_pixel(pos_x + offset_x, pos_y + offset_y)
             offset_x += 1
             if offset_x > width - 1:
@@ -130,9 +131,11 @@ class Page(Pixel, metaclass=abc.ABCMeta):
 
     def _is_transparent(self, color):
         """check if color is a transparency color"""
-        if type(self.options['transparency_color']) == int and color == self.options['transparency_color']:
+        if type(self.options['transparency_color']) == int \
+                and color == self.options['transparency_color']:
             return True
-        elif type(self.options['transparency_color']) == list and color in self.options['transparency_color']:
+        elif type(self.options['transparency_color']) == list \
+                and color in self.options['transparency_color']:
             return True
 
         return False

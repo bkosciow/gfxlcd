@@ -1,11 +1,11 @@
 import RPi.GPIO
 import sys
+from PIL import Image
 sys.path.append("../../")
 from gfxlcd.driver.ili9325.gpio import GPIO as ILIGPIO
 from gfxlcd.driver.ili9325.ili9325 import ILI9325
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
-from PIL import Image
 
 lcd_tft = ILI9325(240, 320, ILIGPIO())
 lcd_tft.init()
