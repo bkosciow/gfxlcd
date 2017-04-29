@@ -132,6 +132,36 @@ class Area(Pixel):
             pos_x + width - 1,
             pos_y + height - 1
         )
-        for r, g, b in list(image_file.getdata()):
-            self.color = (r, g, b)
-            self.driver.data(self._converted_color(), None)
+        row = 0
+        col = 0
+        area = None
+        temporary_area = None
+        for red, green, blue in list(image_file.getdata()):
+            if self._is_transparent((red, green, blue)):
+                area = (pos_x, pos_y + row + 1,  pos_x + width - 1, pos_y + height - 1)
+                temporary_area = (pos_x + col + 1, pos_y + row, pos_x + width - 1, pos_y + row)
+            else:
+                if temporary_area is not None:
+                    self._set_area(*temporary_area)
+                    temporary_area = None
+                self.color = (red, green, blue)
+                self.driver.data(self._converted_color(), None)
+
+            col += 1
+            if col > width - 1:
+                col = 0
+                row += 1
+                if area is not None:
+                    self._set_area(*area)
+                    area = None
+
+    def _is_transparent(self, color):
+        """check if color is a transparency color"""
+        if self.options['transparency_color'] is None:
+            return False
+        elif type(self.options['transparency_color'][0]) == int and color == self.options['transparency_color']:
+            return True
+        elif type(self.options['transparency_color'][0]) == list and color in self.options['transparency_color']:
+            return True
+
+        return False
