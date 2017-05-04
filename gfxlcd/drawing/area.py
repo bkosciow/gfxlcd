@@ -164,6 +164,7 @@ class Area(Pixel):
                 if area is not None:
                     self._set_area(*area)
                     area = None
+                    temporary_area = None
 
     def _is_transparent(self, color):
         """check if color is a transparency color"""
@@ -172,7 +173,8 @@ class Area(Pixel):
         elif type(self.options['transparency_color'][0]) == int \
             and color == self.options['transparency_color']:
                 return True
-        elif type(self.options['transparency_color'][0]) == list \
+        elif (type(self.options['transparency_color'][0]) == list or
+            type(self.options['transparency_color'][0]) == tuple) \
             and color in self.options['transparency_color']:
                 return True
 
