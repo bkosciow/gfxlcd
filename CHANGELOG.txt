@@ -1,2 +1,4 @@
+0.2.0
+    - add AD7843 touch panel driver
 0.1.0
     - extract library from Doton project
