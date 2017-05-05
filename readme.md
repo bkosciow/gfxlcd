@@ -130,7 +130,7 @@ lcd.threshold = 255 - for images a threshold between black and white (on monochr
 lcd.transparency_color = [110, 57] #110 - color(s) that are skipped during drawing an image
 
 
-## Touch panels
+Touch panels
 ===
 
 ## AD7843
