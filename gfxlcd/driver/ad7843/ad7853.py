@@ -4,12 +4,12 @@ import RPi.GPIO
 
 class AD7843(object):
     """AD7843 class"""
-    def __init__(self, width, height, int_pin=None, callback=None, spi=0):
+    def __init__(self, width, height, int_pin=None, callback=None, spi=0, speed=2000000):
         self.width = width
         self.height = height
         self.spi = spidev.SpiDev()
         self.spi.open(spi, 0)
-        self.spi.max_speed_hz = 2000000
+        self.spi.max_speed_hz = speed
         self.spi.mode = 0
         self.correction = {
             'x': 364,
@@ -58,7 +58,7 @@ class AD7843(object):
 
             pos_x = self.get_x(tc_rx)
             pos_y = self.get_y(tc_ry)
-            if  0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
+            if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
                 buffer.append((pos_x, pos_y))
 
         return self._calculate_avr(buffer)
