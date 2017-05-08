@@ -13,7 +13,7 @@ def read(*paths):
 
 setup(
     name='gfxlcd',
-    version='0.2.0',
+    version='0.2.1',
     description='gfxlcd is a handler for graphical lcds: ILI9328, SSD1306, NJU6450, touch panel: AD7843 @ Raspberry Pi.',
     keywords=['gfxlcd', 'raspberry pi' ,'ili9328' ,'ssd1306', 'nju6450', 'lcd', 'graphical lcd', 'touch panel', 'ad7843'],
     long_description=(read('readme.md')),
