@@ -15,15 +15,18 @@ lcd_tft.init()
 def callback(position):
     print('(x,y)', position)
 
-touch = AD7843(240, 320, 26, callback)
+touch = AD7843(240, 320)
 
 touch.init()
 
 while True:
     try:
-        time.sleep(1)
+        time.sleep(0.05)
+        ret = touch.get_position()
+        if ret:
+            print(ret[0], ret[1])
 
     except KeyboardInterrupt:
         touch.close()
-        # RPi.GPIO.cleanup()
+        RPi.GPIO.cleanup()
 

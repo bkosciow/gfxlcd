@@ -98,6 +98,8 @@ Custom pins:
         'DB14': 20,
         'DB15': 21,
         'RST': 25,
+        'LED': None,
+        'CS': None
     }
     o = ILI9325(240, 320, drv)
     o.init()
@@ -231,6 +233,6 @@ Default:
     DB13  ------------------------ G16
     DB14  ------------------------ G20
     DB15  ------------------------ G21
-    CS    ------------------------ GND (always selected)
+    CS    ------------------------ GND (always selected) (or connect to GPIO pin)
     REST  ------------------------ G25
-    LED_A ------------------------ 3.3
+    LED_A ------------------------ 3.3 (can be connected to GPIO pin) 
