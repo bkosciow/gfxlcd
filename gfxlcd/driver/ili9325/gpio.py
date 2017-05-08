@@ -38,6 +38,8 @@ class GPIO(Driver):
         """reset a display"""
         if self.pins['LED']:
             RPi.GPIO.output(self.pins['LED'], 1)
+        if self.pins['CS']:
+            RPi.GPIO.output(self.pins['CS'], 1)
         RPi.GPIO.output(self.pins['RST'], 1)
         time.sleep(0.005)
         RPi.GPIO.output(self.pins['RST'], 0)
@@ -59,12 +61,16 @@ class GPIO(Driver):
 
     def send(self, char, enable):
         """send 16bit as 2*8bit"""
+        if self.pins['CS']:
+            RPi.GPIO.output(self.pins['CS'], 0)
         self._set_pins(char >> 8)
         RPi.GPIO.output(self.pins['W'], 0)
         RPi.GPIO.output(self.pins['W'], 1)
         self._set_pins(char)
         RPi.GPIO.output(self.pins['W'], 0)
         RPi.GPIO.output(self.pins['W'], 1)
+        if self.pins['CS']:
+            RPi.GPIO.output(self.pins['CS'], 1)
 
     def data(self, data, enable):
         """send data to display"""

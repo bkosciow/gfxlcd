@@ -39,6 +39,7 @@ def draw_net(o):
 
 drv = ILIGPIO()
 drv.pins['LED'] = 6
+drv.pins['CS'] = 18
 lcd_tft = ILI9325(240, 320, drv)
 lcd_tft.init()
 

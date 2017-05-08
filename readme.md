@@ -233,6 +233,6 @@ Default:
     DB13  ------------------------ G16
     DB14  ------------------------ G20
     DB15  ------------------------ G21
-    CS    ------------------------ GND (always selected)
+    CS    ------------------------ GND (always selected) (or connect to GPIO pin)
     REST  ------------------------ G25
     LED_A ------------------------ 3.3 (can be connected to GPIO pin) 
