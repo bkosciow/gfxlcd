@@ -10,7 +10,7 @@ class SPI(Driver):
     """SPI communication driver"""
     def __init__(self, spi=0, speed=2000000):
         self.pins = {
-            'CS_LCD': 8,
+            'CS': 8,
             'RST': 25,
             'RS': 24,
             'LED': None
@@ -28,7 +28,7 @@ class SPI(Driver):
                 RPi.GPIO.output(self.pins[pin], 0)
 
         if self.pins['CS']:
-            RPi.GPIO.output(self.pins['CS_LCD'], 1)
+            RPi.GPIO.output(self.pins['CS'], 1)
 
         if self.pins['LED']:
             RPi.GPIO.output(self.pins['LED'], 1)
@@ -50,16 +50,16 @@ class SPI(Driver):
         """send command to display"""
         RPi.GPIO.output(self.pins['RS'], 0)
         if self.pins['CS']:
-            RPi.GPIO.output(self.pins['CS_LCD'], 0)
-        self.spi.xfer2(data)
+            RPi.GPIO.output(self.pins['CS'], 0)
+        self.spi.xfer2([data])
         if self.pins['CS']:
-            RPi.GPIO.output(self.pins['CS_LCD'], 1)
+            RPi.GPIO.output(self.pins['CS'], 1)
 
     def data(self, data, enable):
         """send data to display"""
         RPi.GPIO.output(self.pins['RS'], 1)
         if self.pins['CS']:
-            RPi.GPIO.output(self.pins['CS_LCD'], 0)
-        self.spi.xfer2(data)
+            RPi.GPIO.output(self.pins['CS'], 0)
+        self.spi.xfer2([data])
         if self.pins['CS']:
-            RPi.GPIO.output(self.pins['CS_LCD'], 1)
+            RPi.GPIO.output(self.pins['CS'], 1)
