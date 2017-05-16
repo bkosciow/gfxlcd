@@ -37,9 +37,13 @@ class ILI9486(Area, Chip):
         self.driver.data(0x00, None)
 
         self.driver.cmd(0x11, None)
-        # self.driver.cmd(250, None)
+        #self.driver.cmd(250, None)
+
         self.driver.cmd(0x3a, None)
         self.driver.data(0x55, None)
+
+        self.driver.cmd(0x36, None)
+        self.driver.data(0x28, None)
 
         self.driver.cmd(0xc2, None)
         self.driver.data(0x44, None)
@@ -67,7 +71,7 @@ class ILI9486(Area, Chip):
         self.driver.data(0x0D, None)
         self.driver.data(0x00, None)
 
-        self.driver.cmd(0x10000e1, None)
+        self.driver.cmd(0xe1, None)
         self.driver.data(0x0F, None)
         self.driver.data(0x32, None)
         self.driver.data(0x2E, None)
@@ -84,7 +88,7 @@ class ILI9486(Area, Chip):
         self.driver.data(0x20, None)
         self.driver.data(0x00, None)
 
-        self.driver.cmd(0x10000e2, None)
+        self.driver.cmd(0xe2, None)
         self.driver.data(0x0F, None)
         self.driver.data(0x32, None)
         self.driver.data(0x2E, None)
@@ -107,16 +111,13 @@ class ILI9486(Area, Chip):
     def _set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """select area to work with"""
         self.driver.cmd(0x2a, None)
-        self.driver.data(pos_x1>>8, None)
-        self.driver.data(pos_x1&0xff, None)
-        self.driver.data(pos_x2>>8, None)
-        self.driver.data(pos_x2&0xff, None)
+        self.driver.data(pos_x1 >> 8, None)
+        self.driver.data(pos_x1 & 0xff, None)
+        self.driver.data(pos_x2 >> 8, None)
+        self.driver.data(pos_x2 & 0xff, None)
         self.driver.cmd(0x2b, None)
-        self.driver.data(pos_y1>>8, None)
-        self.driver.data(pos_y1&0xff, None)
-        self.driver.data(pos_y2>>8, None)
-        self.driver.data(pos_y2&0xff, None)
+        self.driver.data(pos_y1 >> 8, None)
+        self.driver.data(pos_y1 & 0xff, None)
+        self.driver.data(pos_y2 >> 8, None)
+        self.driver.data(pos_y2 & 0xff, None)
         self.driver.cmd(0x2c, None)
-
-        # for _ in range(0, pos_x1*pos_y1):
-        #     self.driver.data(0xf00ff, None)

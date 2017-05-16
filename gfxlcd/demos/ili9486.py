@@ -37,15 +37,18 @@ o = ILI9486(320, 480, drv)
 
 print("init")
 o.init()
+# o.driver.reset()
 
-o.color = (255, 120, 0)
-o.background_color = (255, 120,0)
-o.fill_rect(50, 150, 205, 205)
+# exit()
+o.color = (255, 255, 255)
+o.background_color = (0, 0, 0)
+o.fill_rect(10, 150, 205, 205)
 
-for _ in range(0, 50):
-    hole(random.randint(2,o.width-3), random.randint(2,o.height-3))
+# exit()
+# for _ in range(0, 50):
+#     hole(random.randint(2,o.width-3), random.randint(2,o.height-3))
 
-draw_net(o)
+# draw_net(o)
 print("draw")
 o.color = (10, 230, 200)
 o.draw_circle(60, 15, 15)
