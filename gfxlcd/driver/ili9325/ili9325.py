@@ -175,3 +175,19 @@ class ILI9325(Area, Chip):
         # 262K color and display ON
         self.driver.cmd(0x0007, None)
         self.driver.data(0x0133, None)
+
+    def _set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):
+        """select area to work with"""
+        self.driver.cmd(0x0020, None)
+        self.driver.data(pos_x1, None)
+        self.driver.cmd(0x0021, None)
+        self.driver.data(pos_y1, None)
+        self.driver.cmd(0x0050, None)
+        self.driver.data(pos_x1, None)
+        self.driver.cmd(0x0052, None)
+        self.driver.data(pos_y1, None)
+        self.driver.cmd(0x0051, None)
+        self.driver.data(pos_x2, None)
+        self.driver.cmd(0x0053, None)
+        self.driver.data(pos_y2, None)
+        self.driver.cmd(0x0022, None)

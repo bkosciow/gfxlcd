@@ -34,6 +34,9 @@ class GPIO(Driver):
                 RPi.GPIO.setup(self.pins[pin], RPi.GPIO.OUT)
                 RPi.GPIO.output(self.pins[pin], 0)
 
+        if self.pins['LED']:
+            RPi.GPIO.output(self.pins['LED'], 1)
+
     def reset(self):
         """reset a display"""
         if self.pins['LED']:

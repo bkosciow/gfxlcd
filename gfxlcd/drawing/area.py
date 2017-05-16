@@ -18,22 +18,6 @@ class Area(Pixel):
         self._set_area(pos_x, pos_y, pos_x, pos_y)
         self.driver.data(self._converted_color(), None)
 
-    def _set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):
-        """select area to work with"""
-        self.driver.cmd(0x0020, None)
-        self.driver.data(pos_x1, None)
-        self.driver.cmd(0x0021, None)
-        self.driver.data(pos_y1, None)
-        self.driver.cmd(0x0050, None)
-        self.driver.data(pos_x1, None)
-        self.driver.cmd(0x0052, None)
-        self.driver.data(pos_y1, None)
-        self.driver.cmd(0x0051, None)
-        self.driver.data(pos_x2, None)
-        self.driver.cmd(0x0053, None)
-        self.driver.data(pos_y2, None)
-        self.driver.cmd(0x0022, None)
-
     def _draw_vertical_line(self, pos_x, pos_y, length):
         """draw vertical line"""
         self._set_area(pos_x, pos_y, pos_x, pos_y + length)
