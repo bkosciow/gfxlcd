@@ -6,9 +6,12 @@ from gfxlcd.abstract.chip import Chip
 
 class ILI9486(Area, Chip):
     """Class for ILI9486 based LCD"""
+    rotations = {0: 0x80, 90: 0xf0, 180: 0x40, 270: 0x20}
+
     def __init__(self, width, height, driver):
         Chip.__init__(self, width, height, driver, True)
         Area.__init__(self, driver)
+        self.rotation = 0
 
     def _converted_background_color(self):
         """color from 8-8-8 to 5-6-5"""
@@ -35,15 +38,15 @@ class ILI9486(Area, Chip):
 
         self.driver.cmd(0x0b, None)
         self.driver.data(0x00, None)
+        self.driver.data(0x00, None)
 
         self.driver.cmd(0x11, None)
-        #self.driver.cmd(250, None)
 
         self.driver.cmd(0x3a, None)
-        self.driver.data(0x55, None)
+        self.driver.data(0x55, None) #0x66
 
         self.driver.cmd(0x36, None)
-        self.driver.data(0x28, None)
+        self.driver.data(self.rotations[self.rotation], None)
 
         self.driver.cmd(0xc2, None)
         self.driver.data(0x44, None)
