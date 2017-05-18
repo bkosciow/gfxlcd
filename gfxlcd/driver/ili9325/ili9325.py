@@ -9,7 +9,7 @@ class ILI9325(Area, Chip):
     rotations = {
         0: {
             'output': 0x0100,
-            'mode': 0x1038,
+            'mode': 0x1030,
             'output2': 0xa700
         },
         90: {
@@ -18,9 +18,9 @@ class ILI9325(Area, Chip):
             'output2': 0xa700
         },
         180: {
-           'output': 0x0000,
-           'mode': 0x1038,
-           'output2': 0x2700
+            'output': 0x0000,
+            'mode': 0x1030,
+            'output2': 0x2700
         },
         270: {
             'output': 0x0100,
@@ -32,7 +32,7 @@ class ILI9325(Area, Chip):
     def __init__(self, width, height, driver):
         Chip.__init__(self, width, height, driver, True)
         Area.__init__(self, driver)
-        self.rotation = 0
+        self.rotation = 270
 
     def _converted_background_color(self):
         """color from 8-8-8 to 5-6-5"""
