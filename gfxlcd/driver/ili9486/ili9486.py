@@ -36,27 +36,34 @@ class ILI9486(Area, Chip):
         Chip.init(self)
         self.driver.reset()
 
+        #Read Display MADCTL
         self.driver.cmd(0x0b, None)
         self.driver.data(0x00, None)
         self.driver.data(0x00, None)
 
+        #Sleep OUT
         self.driver.cmd(0x11, None)
 
+        #Interface Pixel Format
         self.driver.cmd(0x3a, None)
-        self.driver.data(0x55, None) #0x66
+        self.driver.data(0x55, None) #0x66 5-6-5 / 55 6-6-6
 
+        #Memory Access Control (
         self.driver.cmd(0x36, None)
         self.driver.data(self.rotations[self.rotation], None)
 
+        #Power Control 3 (For Normal Mode)
         self.driver.cmd(0xc2, None)
         self.driver.data(0x44, None)
 
+        #VCOM Control
         self.driver.cmd(0xc5, None)
         self.driver.data(0x00, None)
         self.driver.data(0x00, None)
         self.driver.data(0x00, None)
         self.driver.data(0x00, None)
 
+        #PGAMCTRL(Positive Gamma Control)
         self.driver.cmd(0xe0, None)
         self.driver.data(0x0F, None)
         self.driver.data(0x1F, None)
@@ -74,6 +81,7 @@ class ILI9486(Area, Chip):
         self.driver.data(0x0D, None)
         self.driver.data(0x00, None)
 
+        #NGAMCTRL (Negative Gamma Correction)
         self.driver.cmd(0xe1, None)
         self.driver.data(0x0F, None)
         self.driver.data(0x32, None)
@@ -91,6 +99,7 @@ class ILI9486(Area, Chip):
         self.driver.data(0x20, None)
         self.driver.data(0x00, None)
 
+        #Digital Gamma Control 1
         self.driver.cmd(0xe2, None)
         self.driver.data(0x0F, None)
         self.driver.data(0x32, None)
@@ -108,7 +117,10 @@ class ILI9486(Area, Chip):
         self.driver.data(0x20, None)
         self.driver.data(0x00, None)
 
+        #Sleep OUT
         self.driver.cmd(0x11, None)
+
+        #Display ON
         self.driver.cmd(0x29, None)
 
     def _set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):

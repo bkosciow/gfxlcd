@@ -8,7 +8,7 @@ RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 class SPI(Driver):
     """SPI communication driver"""
-    def __init__(self, spi=0, speed=2000000):
+    def __init__(self, spi=0, speed=1000000):
         self.pins = {
             'CS': 8,
             'RST': 25,
