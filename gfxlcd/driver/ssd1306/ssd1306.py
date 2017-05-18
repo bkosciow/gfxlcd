@@ -8,6 +8,7 @@ class SSD1306(Page, Chip):
     def __init__(self, width, height, driver, auto_flush=True):
         Chip.__init__(self, width, height, driver, auto_flush)
         Page.__init__(self, driver)
+        self.rotation = 0
 
     def init(self):
         """inits a device"""
