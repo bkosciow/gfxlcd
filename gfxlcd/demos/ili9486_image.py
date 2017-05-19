@@ -9,6 +9,7 @@ RPi.GPIO.setmode(RPi.GPIO.BCM)
 
 drv = SPI()
 lcd_tft = ILI9486(320, 480, drv)
+#lcd_tft.rotation = 270
 lcd_tft.init()
 
 image_file = Image.open("assets/japan_temple_240x320.jpg")

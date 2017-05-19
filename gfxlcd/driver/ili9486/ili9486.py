@@ -6,7 +6,7 @@ from gfxlcd.abstract.chip import Chip
 
 class ILI9486(Area, Chip):
     """Class for ILI9486 based LCD"""
-    rotations = {0: 0x80, 90: 0xf0, 180: 0x40, 270: 0x20}
+    rotations = {0: 0x88, 90: 0xf8, 180: 0x48, 270: 0x28}
 
     def __init__(self, width, height, driver):
         Chip.__init__(self, width, height, driver, True)

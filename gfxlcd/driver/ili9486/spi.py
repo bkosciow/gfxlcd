@@ -60,6 +60,6 @@ class SPI(Driver):
         RPi.GPIO.output(self.pins['RS'], 1)
         if self.pins['CS']:
             RPi.GPIO.output(self.pins['CS'], 0)
-        self.spi.xfer2([data])
+        self.spi.xfer2([data >> 8, data])
         if self.pins['CS']:
             RPi.GPIO.output(self.pins['CS'], 1)
