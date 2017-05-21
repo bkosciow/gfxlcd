@@ -5,14 +5,15 @@ Library for graphical LCDs for Python on Raspberry Pi. Creates a united interfac
 
 Supported:
 
-- ili325 via GPIO
+- ili9486 via SPI
+- ili9325 via GPIO
 - ssd1306 via SPI
 - nju6450 via GPIO
 
 And for touch panels:
 
 - ad7843 via SPI, uses irq or not
-
+- WIP ad7866/xpt2046
 
 On NJU and SSD uses buffer to keep current content as help for page operations.
 
@@ -104,6 +105,15 @@ Custom pins:
     o = ILI9325(240, 320, drv)
     o.init()
 
+## ILI9486
+### SPI
+
+    from gfxlcd.driver.ili9486.spi import SPI
+    from gfxlcd.driver.ili9486.ili9486 import ILI9486
+    drv = SPI()
+    o = ILI9486(320, 480, drv)
+    o.rotation = 270
+    o.init()
 
 Drawing functions
 ===
@@ -139,14 +149,14 @@ Touch panels
 
 Constructor:
     
-    AD7843(width, height, (T_INT), (callback))
+    AD7843(width, height, (int_pin), (callback), (cs_pin))
     
-Can be used with T_INT
+Can be used with int_pin and cs_pin
 
     def callback(position):
         print('(x,y)', position)
     
-    touch = AD7843(240, 320, 26, callback)
+    touch = AD7843(240, 320, 26, callback, 17)
     touch.init()
 
 or without:
@@ -236,3 +246,15 @@ Default:
     CS    ------------------------ GND (always selected) (or connect to GPIO pin)
     REST  ------------------------ G25
     LED_A ------------------------ 3.3 (can be connected to GPIO pin) 
+
+## ILI9486 (Waveshare)
+### SPI
+Default:
+
+    RPi                    Shield
+    G17 ----------------- TP_IRQ
+    G24 ----------------- RS
+    G25 ----------------- RST
+    G9  ----------------- LCD_CS
+    G7  ----------------- TP_CS
+

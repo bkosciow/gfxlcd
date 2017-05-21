@@ -2,8 +2,8 @@ import spidev  # pylint: disable=I0011,F0401
 import RPi.GPIO
 
 
-class AD7843(object):
-    """AD7843 class"""
+class XPT2046(object):
+    """XPT2046 class"""
     def __init__(self, width, height, int_pin=None, callback=None, cs_pin=None, spi=0, speed=1000000):
         self.width = width
         self.height = height
@@ -35,34 +35,31 @@ class AD7843(object):
 
     def get_x(self, value):
         """correct value to x"""
-        return self.width - int((value - self.correction['x']) / self.correction['ratio_x'])
+        return int((value - self.correction['x']) / self.correction['ratio_x'])
 
     def get_y(self, value):
         """correct value to y"""
-        return self.height - int((value - self.correction['y']) / self.correction['ratio_y'])
+        return int((value - self.correction['y']) / self.correction['ratio_y'])
 
     def _interrupt(self, channel):
         """call users callback"""
-        if self.cs_pin:
-            RPi.GPIO.output(self.cs_pin, 0)
+        print('bb')
         self.callback(self.get_position())
-        if self.cs_pin:
-            RPi.GPIO.output(self.cs_pin, 1)
 
     def get_position(self):
         """get touch coords"""
         buffer = []
         fuse = 40
         while len(buffer) < 20 and fuse > 0:
-            # if self.cs_pin:
-            #     RPi.GPIO.output(self.cs_pin, 0)
+            if self.cs_pin:
+                RPi.GPIO.output(self.cs_pin, 0)
             self.spi.xfer2([0xd0])
             recvx = self.spi.readbytes(2)
             self.spi.xfer2([0x90])
             recvy = self.spi.readbytes(2)
-            # if self.cs_pin:
-            #     RPi.GPIO.output(self.cs_pin, 1)
 
+            if self.cs_pin:
+                RPi.GPIO.output(self.cs_pin, 1)
             tc_rx = recvx[0] << 5
             tc_rx |= recvx[1] >> 3
 
