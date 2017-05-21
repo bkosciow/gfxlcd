@@ -16,12 +16,12 @@ def callback(position):
     print('(x,y)', position)
 
 touch = XPT2046(320, 480, 17, callback, 7)
-touch.correction = {
-    'x': -3394,#364,
-    'y': -3350,#430,
-    'ratio_x': 1,
-    'ratio_y': 1
-}
+# touch.correction = {
+#     'x': 1,#3394,#364,
+#     'y': 1,#3350,#430,
+#     'ratio_x': 1,
+#     'ratio_y': 1
+# }
 touch.init()
 
 while True:

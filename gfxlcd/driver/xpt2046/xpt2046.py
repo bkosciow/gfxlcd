@@ -12,10 +12,10 @@ class XPT2046(object):
         self.spi.max_speed_hz = speed
         self.spi.mode = 0
         self.correction = {
-            'x': 364,
-            'y': 430,
-            'ratio_x': 14.35,
-            'ratio_y': 10.59
+            'x': 540,
+            'y': 50,
+            'ratio_x': 0.94, #14.35,
+            'ratio_y': 1.26, #10.59
         }
         self.cs_pin = cs_pin
         self.int_pin = int_pin
@@ -43,7 +43,6 @@ class XPT2046(object):
 
     def _interrupt(self, channel):
         """call users callback"""
-        print('bb')
         self.callback(self.get_position())
 
     def get_position(self):
@@ -53,24 +52,30 @@ class XPT2046(object):
         while len(buffer) < 20 and fuse > 0:
             if self.cs_pin:
                 RPi.GPIO.output(self.cs_pin, 0)
-            self.spi.xfer2([0xd0])
-            recvx = self.spi.readbytes(2)
-            self.spi.xfer2([0x90])
-            recvy = self.spi.readbytes(2)
+
+            self.spi.xfer2([0x80 | 0x08 | 0x30])
+            recv = self.spi.readbytes(1)
+            tc_rz = recv[0] & 0x7f
+
+            self.spi.xfer2([0x80 | 0x08 | 0x40])
+            recv = self.spi.readbytes(1)
+            tc_rz += (255-recv[0] & 0x7f)
+
+            self.spi.xfer2([0x80 | 0x10])
+            recv = self.spi.readbytes(2)
+            tc_rx = 1023-((recv[0] << 2)|(recv[1] >> 6))
+
+            self.spi.xfer2([0x80 | 0x50])
+            recv = self.spi.readbytes(2)
+            tc_ry = ((recv[0] << 2)|(recv[1] >> 6))
 
             if self.cs_pin:
                 RPi.GPIO.output(self.cs_pin, 1)
-            tc_rx = recvx[0] << 5
-            tc_rx |= recvx[1] >> 3
-
-            tc_ry = recvy[0] << 5
-            tc_ry |= recvy[1] >> 3
-
-            pos_x = self.get_x(tc_rx)
-            pos_y = self.get_y(tc_ry)
-            print(pos_x, pos_y)
-            if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
-                buffer.append((pos_x, pos_y))
+            if tc_rz > 10:
+                pos_x = self.get_x(tc_rx)
+                pos_y = self.get_y(tc_ry)
+                if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
+                    buffer.append((pos_x, pos_y))
             fuse -= 1
 
         return self._calculate_avr(buffer)
