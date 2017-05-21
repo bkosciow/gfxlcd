@@ -1,8 +1,9 @@
 import spidev  # pylint: disable=I0011,F0401
 import RPi.GPIO
+from gfxlcd.abstract.touch import Touch
 
 
-class XPT2046(object):
+class XPT2046(Touch):
     """XPT2046 class"""
     def __init__(self, width, height, int_pin=None, callback=None, cs_pin=None, spi=0, speed=1000000):
         self.width = width
@@ -14,13 +15,14 @@ class XPT2046(object):
         self.correction = {
             'x': 540,
             'y': 50,
-            'ratio_x': 0.94, #14.35,
-            'ratio_y': 1.26, #10.59
+            'ratio_x': 0.94,
+            'ratio_y': 1.26,
         }
         self.cs_pin = cs_pin
         self.int_pin = int_pin
         self.callback = callback
         self.bouncetime = 500
+        self.rotate = 0
 
     def init(self):
         """some init functions"""
@@ -33,17 +35,35 @@ class XPT2046(object):
             RPi.GPIO.setup(self.cs_pin, RPi.GPIO.OUT)
             RPi.GPIO.output(self.cs_pin, 1)
 
-    def get_x(self, value):
-        """correct value to x"""
-        return int((value - self.correction['x']) / self.correction['ratio_x'])
-
-    def get_y(self, value):
-        """correct value to y"""
-        return int((value - self.correction['y']) / self.correction['ratio_y'])
+    # def get_x(self, value):
+    #     """correct value to x"""
+    #     return int((value - self.correction['x']) / self.correction['ratio_x'])
+    #
+    # def get_y(self, value):
+    #     """correct value to y"""
+    #     return int((value - self.correction['y']) / self.correction['ratio_y'])
 
     def _interrupt(self, channel):
         """call users callback"""
         self.callback(self.get_position())
+
+    def _get_xy(self, offset_x, offset_y):
+        """correct x and y"""
+        if self.rotate == 0:
+            return int((offset_x - self.correction['x']) / self.correction['ratio_x']), \
+                self.height - int((offset_y - self.correction['y']) / self.correction['ratio_y'])
+
+        if self.rotate == 90:
+            return int((offset_y - self.correction['y']) / self.correction['ratio_y']), \
+                int((offset_x - self.correction['x']) / self.correction['ratio_x']),
+
+        if self.rotate == 180:
+            return self.width - int((offset_x - self.correction['x']) / self.correction['ratio_x']), \
+                int((offset_y - self.correction['y']) / self.correction['ratio_y'])
+
+        if self.rotate == 270:
+            return self.height - int((offset_y - self.correction['y']) / self.correction['ratio_y']), \
+                self.width - int((offset_x - self.correction['x']) / self.correction['ratio_x'])
 
     def get_position(self):
         """get touch coords"""
@@ -72,13 +92,19 @@ class XPT2046(object):
             if self.cs_pin:
                 RPi.GPIO.output(self.cs_pin, 1)
             if tc_rz > 10:
-                pos_x = self.get_x(tc_rx)
-                pos_y = self.get_y(tc_ry)
-                if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
+                pos_x, pos_y = self._get_xy(tc_rx, tc_ry)
+                if self._in_bounds(pos_x, pos_y):
                     buffer.append((pos_x, pos_y))
             fuse -= 1
 
         return self._calculate_avr(buffer)
+
+    def _in_bounds(self, pos_x, pos_y):
+        """checks if point is in range"""
+        if self.rotate == 0 or self.rotate == 280:
+            return 0 <= pos_x <= self.width and 0 <= pos_y <= self.height
+        else:
+            return 0 <= pos_y <= self.width and 0 <= pos_x <= self.height
 
     def _calculate_avr(self, points):
         """calculate x,y by average"""

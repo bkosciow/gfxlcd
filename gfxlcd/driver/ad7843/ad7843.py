@@ -1,8 +1,9 @@
 import spidev  # pylint: disable=I0011,F0401
 import RPi.GPIO
+from gfxlcd.abstract.touch import Touch
 
 
-class AD7843(object):
+class AD7843(Touch):
     """AD7843 class"""
     def __init__(self, width, height, int_pin=None, callback=None, cs_pin=None, spi=0, speed=1000000):
         self.width = width
@@ -21,6 +22,7 @@ class AD7843(object):
         self.int_pin = int_pin
         self.callback = callback
         self.bouncetime = 500
+        self.rotate = 0
 
     def init(self):
         """some init functions"""
@@ -54,14 +56,14 @@ class AD7843(object):
         buffer = []
         fuse = 40
         while len(buffer) < 20 and fuse > 0:
-            # if self.cs_pin:
-            #     RPi.GPIO.output(self.cs_pin, 0)
+            if self.cs_pin:
+                RPi.GPIO.output(self.cs_pin, 0)
             self.spi.xfer2([0xd0])
             recvx = self.spi.readbytes(2)
             self.spi.xfer2([0x90])
             recvy = self.spi.readbytes(2)
-            # if self.cs_pin:
-            #     RPi.GPIO.output(self.cs_pin, 1)
+            if self.cs_pin:
+                RPi.GPIO.output(self.cs_pin, 1)
 
             tc_rx = recvx[0] << 5
             tc_rx |= recvx[1] >> 3
@@ -71,7 +73,6 @@ class AD7843(object):
 
             pos_x = self.get_x(tc_rx)
             pos_y = self.get_y(tc_ry)
-            print(pos_x, pos_y)
             if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
                 buffer.append((pos_x, pos_y))
             fuse -= 1
