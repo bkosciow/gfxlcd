@@ -4,7 +4,7 @@ import RPi.GPIO
 
 class AD7843(object):
     """AD7843 class"""
-    def __init__(self, width, height, int_pin=None, callback=None, spi=0, speed=2000000):
+    def __init__(self, width, height, int_pin=None, callback=None, cs_pin=None, spi=0, speed=2000000):
         self.width = width
         self.height = height
         self.spi = spidev.SpiDev()
@@ -17,6 +17,7 @@ class AD7843(object):
             'ratio_x': 14.35,
             'ratio_y': 10.59
         }
+        self.cs_pin = cs_pin
         self.int_pin = int_pin
         self.callback = callback
         self.bouncetime = 500
@@ -28,6 +29,9 @@ class AD7843(object):
             RPi.GPIO.add_event_detect(
                 self.int_pin, RPi.GPIO.BOTH, callback=self._interrupt, bouncetime=self.bouncetime
             )
+        if self.cs_pin:
+            RPi.GPIO.setup(self.cs_pin, RPi.GPIO.OUT)
+            RPi.GPIO.output(self.cs_pin, 1)
 
     def get_x(self, value):
         """correct value to x"""
@@ -39,7 +43,11 @@ class AD7843(object):
 
     def _interrupt(self, channel):
         """call users callback"""
+        if self.cs_pin:
+            RPi.GPIO.output(self.cs_pin, 0)
         self.callback(self.get_position())
+        if self.cs_pin:
+            RPi.GPIO.output(self.cs_pin, 1)
 
     def get_position(self):
         """get touch coords"""
