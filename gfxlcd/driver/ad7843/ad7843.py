@@ -35,13 +35,23 @@ class AD7843(Touch):
             RPi.GPIO.setup(self.cs_pin, RPi.GPIO.OUT)
             RPi.GPIO.output(self.cs_pin, 1)
 
-    def get_x(self, value):
-        """correct value to x"""
-        return self.width - int((value - self.correction['x']) / self.correction['ratio_x'])
+    def _get_xy(self, offset_x, offset_y):
+        """correct x and y"""
+        if self.rotate == 0:
+            return int((offset_x - self.correction['x']) / self.correction['ratio_x']), \
+                int((offset_y - self.correction['y']) / self.correction['ratio_y'])
 
-    def get_y(self, value):
-        """correct value to y"""
-        return self.height - int((value - self.correction['y']) / self.correction['ratio_y'])
+        if self.rotate == 90:
+            return self.height - int((offset_y - self.correction['y']) / self.correction['ratio_y']), \
+                int((offset_x - self.correction['x']) / self.correction['ratio_x'])
+
+        if self.rotate == 180:
+            return self.width - int((offset_x - self.correction['x']) / self.correction['ratio_x']), \
+                self.height - int((offset_y - self.correction['y']) / self.correction['ratio_y'])
+
+        if self.rotate == 270:
+            return int((offset_y - self.correction['y']) / self.correction['ratio_y']), \
+                self.width - int((offset_x - self.correction['x']) / self.correction['ratio_x'])
 
     def _interrupt(self, channel):
         """call users callback"""
@@ -71,13 +81,19 @@ class AD7843(Touch):
             tc_ry = recvy[0] << 5
             tc_ry |= recvy[1] >> 3
 
-            pos_x = self.get_x(tc_rx)
-            pos_y = self.get_y(tc_ry)
-            if 0 <= pos_x <= self.width and 0 <= pos_y <= self.height:
+            pos_x, pos_y = self._get_xy(tc_rx, tc_ry)
+            if self._in_bounds(pos_x, pos_y):
                 buffer.append((pos_x, pos_y))
             fuse -= 1
 
         return self._calculate_avr(buffer)
+
+    def _in_bounds(self, pos_x, pos_y):
+        """checks if point is in range"""
+        if self.rotate == 0 or self.rotate == 180:
+            return 0 <= pos_x <= self.width and 0 <= pos_y <= self.height
+        else:
+            return 0 <= pos_y <= self.width and 0 <= pos_x <= self.height
 
     def _calculate_avr(self, points):
         """calculate x,y by average"""

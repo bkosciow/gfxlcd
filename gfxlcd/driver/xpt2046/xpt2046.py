@@ -35,14 +35,6 @@ class XPT2046(Touch):
             RPi.GPIO.setup(self.cs_pin, RPi.GPIO.OUT)
             RPi.GPIO.output(self.cs_pin, 1)
 
-    # def get_x(self, value):
-    #     """correct value to x"""
-    #     return int((value - self.correction['x']) / self.correction['ratio_x'])
-    #
-    # def get_y(self, value):
-    #     """correct value to y"""
-    #     return int((value - self.correction['y']) / self.correction['ratio_y'])
-
     def _interrupt(self, channel):
         """call users callback"""
         self.callback(self.get_position())
@@ -101,7 +93,7 @@ class XPT2046(Touch):
 
     def _in_bounds(self, pos_x, pos_y):
         """checks if point is in range"""
-        if self.rotate == 0 or self.rotate == 280:
+        if self.rotate == 0 or self.rotate == 180:
             return 0 <= pos_x <= self.width and 0 <= pos_y <= self.height
         else:
             return 0 <= pos_y <= self.width and 0 <= pos_x <= self.height

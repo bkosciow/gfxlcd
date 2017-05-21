@@ -16,7 +16,7 @@ def callback(position):
     print('(x,y)', position)
 
 touch = AD7843(240, 320, 26, callback)
-
+# touch.rotate = 270
 touch.init()
 
 while True:
