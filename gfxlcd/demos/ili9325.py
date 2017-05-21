@@ -31,6 +31,8 @@ def draw_net(o):
 
 
 drv = GPIO()
+drv.pins['LED'] = 6
+drv.pins['CS'] = 18
 o = ILI9325(240, 320, drv)
 
 o.init()

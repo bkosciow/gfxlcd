@@ -12,6 +12,28 @@ class Pixel(object):
         self.options['background_color'] = {
             'R': 0, 'G': 0, 'B': 0,
         }
+        self.options['threshold'] = 50
+        self.options['transparency_color'] = None
+
+    @property
+    def threshold(self):
+        """get threshold for B&W conversion"""
+        return self.options['threshold']
+
+    @threshold.setter
+    def threshold(self, threshold):
+        """set B&W threshold for conversion """
+        self.options['threshold'] = threshold
+
+    @property
+    def transparency_color(self):
+        """get transparency color"""
+        return self.options['transparency_color']
+
+    @transparency_color.setter
+    def transparency_color(self, transparency_color):
+        """set transparency color """
+        self.options['transparency_color'] = transparency_color
 
     def draw_pixel(self, pos_x, pos_y):
         """dummy fuction"""

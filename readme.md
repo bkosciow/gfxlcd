@@ -9,12 +9,18 @@ Supported:
 - ssd1306 via SPI
 - nju6450 via GPIO
 
+And for touch panels:
+
+- ad7843 via SPI, uses irq or not
+
+
 On NJU and SSD uses buffer to keep current content as help for page operations.
 
 Wiring is below
 
+Demos are in demos directory
 
-Initialization
+LCD initialization
 ===
 ## SSD1306
 ### SPI
@@ -92,6 +98,8 @@ Custom pins:
         'DB14': 20,
         'DB15': 21,
         'RST': 25,
+        'LED': None,
+        'CS': None
     }
     o = ILI9325(240, 320, drv)
     o.init()
@@ -111,13 +119,60 @@ draw_arc(x1, y1, radius, from_angle, to_angle
 
 fill_rect(x1, y1, x2, y2)
 
+draw_image(x, y, PIL.Image)
 
 Colours
 ===
 lcd.color = (r, g, b)
+
 lcd.background_color = (r, g ,b)
 
+lcd.threshold = 255 - for images a threshold between black and white (on monochrome)
 
+lcd.transparency_color = [110, 57] #110 - color(s) that are skipped during drawing an image
+
+
+Touch panels
+===
+
+## AD7843
+
+Constructor:
+    
+    AD7843(width, height, (T_INT), (callback))
+    
+Can be used with T_INT
+
+    def callback(position):
+        print('(x,y)', position)
+    
+    touch = AD7843(240, 320, 26, callback)
+    touch.init()
+
+or without:
+
+    touch = AD7843(240, 320)
+    touch.init()
+
+    while True:
+        try:
+            time.sleep(0.05)
+            ret = touch.get_position()
+            if ret:
+                print(ret[0], ret[1])
+    
+        except KeyboardInterrupt:
+            touch.close()
+
+There is no automatic calibration. It must be done manually.
+         
+    self.correction = {
+        'x': 364,
+        'y': 430,
+        'ratio_x': 14.35,
+        'ratio_y': 10.59
+    }
+             
 Wiring
 ===
 
@@ -178,6 +233,6 @@ Default:
     DB13  ------------------------ G16
     DB14  ------------------------ G20
     DB15  ------------------------ G21
-    CS    ------------------------ GND (always selected)
+    CS    ------------------------ GND (always selected) (or connect to GPIO pin)
     REST  ------------------------ G25
-    LED_A ------------------------ 3.3
+    LED_A ------------------------ 3.3 (can be connected to GPIO pin) 

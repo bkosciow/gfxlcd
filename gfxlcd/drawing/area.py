@@ -18,22 +18,6 @@ class Area(Pixel):
         self._set_area(pos_x, pos_y, pos_x, pos_y)
         self.driver.data(self._converted_color(), None)
 
-    def _set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):
-        """select area to work with"""
-        self.driver.cmd(0x0020, None)
-        self.driver.data(pos_x1, None)
-        self.driver.cmd(0x0021, None)
-        self.driver.data(pos_y1, None)
-        self.driver.cmd(0x0050, None)
-        self.driver.data(pos_x1, None)
-        self.driver.cmd(0x0052, None)
-        self.driver.data(pos_y1, None)
-        self.driver.cmd(0x0051, None)
-        self.driver.data(pos_x2, None)
-        self.driver.cmd(0x0053, None)
-        self.driver.data(pos_y2, None)
-        self.driver.cmd(0x0022, None)
-
     def _draw_vertical_line(self, pos_x, pos_y, length):
         """draw vertical line"""
         self._set_area(pos_x, pos_y, pos_x, pos_y + length)
@@ -121,3 +105,61 @@ class Area(Pixel):
         color = self._converted_background_color()
         for _ in range(0, size):
             self.driver.data(color, None)
+
+    def draw_image(self, pos_x, pos_y, image):
+        """draw a PIL image"""
+        image_file = image.convert('RGB')
+        width, height = image_file.size
+        self._set_area(
+            pos_x,
+            pos_y,
+            pos_x + width - 1,
+            pos_y + height - 1
+        )
+        row = 0
+        col = 0
+        area = None
+        temporary_area = None
+        for red, green, blue in list(image_file.getdata()):
+            if self._is_transparent((red, green, blue)):
+                area = (
+                    pos_x,
+                    pos_y + row + 1,
+                    pos_x + width - 1,
+                    pos_y + height - 1
+                )
+                temporary_area = (
+                    pos_x + col + 1,
+                    pos_y + row,
+                    pos_x + width - 1,
+                    pos_y + row
+                )
+            else:
+                if temporary_area is not None:
+                    self._set_area(*temporary_area)
+                    temporary_area = None
+                self.color = (red, green, blue)
+                self.driver.data(self._converted_color(), None)
+
+            col += 1
+            if col > width - 1:
+                col = 0
+                row += 1
+                if area is not None:
+                    self._set_area(*area)
+                    area = None
+                    temporary_area = None
+
+    def _is_transparent(self, color):
+        """check if color is a transparency color"""
+        if self.options['transparency_color'] is None:
+            return False
+        elif type(self.options['transparency_color'][0]) == int \
+            and color == self.options['transparency_color']:
+                return True
+        elif (type(self.options['transparency_color'][0]) == list or
+            type(self.options['transparency_color'][0]) == tuple) \
+            and color in self.options['transparency_color']:
+                return True
+
+        return False

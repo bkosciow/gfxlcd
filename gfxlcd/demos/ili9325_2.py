@@ -37,14 +37,12 @@ def draw_net(o):
         o.draw_line(0, s, o.width-1, s)
         s += 10
 
-
-lcd_tft = ILI9325(240, 320, ILIGPIO())
+drv = ILIGPIO()
+drv.pins['LED'] = 6
+drv.pins['CS'] = 18
+lcd_tft = ILI9325(240, 320, drv)
 lcd_tft.init()
 
-# bypass of missing +3v line to power backlight
-LED = 6
-RPi.GPIO.setup(LED, RPi.GPIO.OUT)
-RPi.GPIO.output(LED, 1)
 lcd_tft.background_color = (255, 255, 255)
 lcd_tft.fill_rect(0, 0, 240, 320)
 lcd_tft.color = (0, 255, 1)
