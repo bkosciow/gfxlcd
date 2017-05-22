@@ -13,9 +13,12 @@ def read(*paths):
 
 setup(
     name='gfxlcd',
-    version='0.2.1',
+    version='0.4.0',
     description='gfxlcd is a handler for graphical lcds: ILI9328, SSD1306, NJU6450, touch panel: AD7843 @ Raspberry Pi.',
-    keywords=['gfxlcd', 'raspberry pi' ,'ili9328' ,'ssd1306', 'nju6450', 'lcd', 'graphical lcd', 'touch panel', 'ad7843'],
+    keywords=[
+        'gfxlcd', 'raspberry pi' ,'ili9328' ,'ssd1306', 'nju6450', 'lcd', 'graphical lcd', 'touch panel', 'ad7843',
+        'ili9486', 'xpt2046', 'ad7846'
+    ],
     long_description=(read('readme.md')),
     url='https://github.com/bkosciow/gfxlcd',
     license='MIT',

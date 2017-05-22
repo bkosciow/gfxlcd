@@ -13,7 +13,7 @@ Supported:
 And for touch panels:
 
 - ad7843 via SPI, uses irq or not
-- WIP ad7866/xpt2046
+- ad7866/xpt2046
 
 On NJU and SSD uses buffer to keep current content as help for page operations.
 
