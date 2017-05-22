@@ -11,7 +11,6 @@ class ILI9486(Area, Chip):
     def __init__(self, width, height, driver):
         Chip.__init__(self, width, height, driver, True)
         Area.__init__(self, driver)
-        self.rotation = 0
 
     def _converted_background_color(self):
         """color from 8-8-8 to 5-6-5"""

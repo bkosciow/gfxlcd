@@ -6,6 +6,7 @@ class Chip(metaclass=abc.ABCMeta):
     """Chip class"""
     def __init__(self, width, height, driver, auto_flush):
         self.options = {}
+        self.rotation = 0
         self._width = width
         self._height = height
         self.driver = driver
@@ -14,12 +15,18 @@ class Chip(metaclass=abc.ABCMeta):
     @property
     def width(self):
         """get width"""
-        return self._width
+        if self.rotation == 0 or self.rotation == 180:
+            return self._width
+        else:
+            return self._height
 
     @property
     def height(self):
         """get height"""
-        return self._height
+        if self.rotation == 0 or self.rotation == 180:
+            return self._height
+        else:
+            return self._width
 
     @abc.abstractmethod
     def _converted_background_color(self):
