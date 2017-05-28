@@ -22,56 +22,78 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         """calculate lineparts - helper"""
         steps = [length for _ in range(0, step)]
         if step * length < required_length:
+            offset = len(steps) // 2
+            steps_even = True if len(steps) & 1 == 0 else False
+            appendix = 0
             for idx in range(0, required_length - step * length):
-                steps[idx] += 1
+                steps[offset + appendix] += 1
+                if steps_even:
+                    appendix = self._calculate_appendix(appendix)
+                elif idx > 0:
+                    appendix = self._calculate_appendix(appendix)
 
         return steps
+
+    def _calculate_appendix(self, appendix):
+        if appendix == 0:
+            appendix = -1
+        elif appendix < 0:
+            appendix *= -1
+        else:
+            appendix = (appendix + 1) * -1
+
+        return appendix
 
     def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw diagonal line"""
         width = abs(pos_x2 - pos_x1)
         height = abs(pos_y2 - pos_y1)
         if pos_x1 == pos_x2:
-            steps = [height]
+            steps = [height+1]
             horizontal = False
             offset_x = offset_y = 0
         elif pos_y1 == pos_y2:
-            steps = [width]
+            steps = [width+1]
             horizontal = True
             offset_x = offset_y = 0
         elif width > height:
+            width += 1
             if pos_x2 < pos_x1:
                 pos_x1, pos_x2 = pos_x2, pos_x1
                 pos_y1, pos_y2 = pos_y2, pos_y1
             offset_y = 1 if pos_y2 > pos_y1 else -1
             offset_x = 1 if pos_x2 > pos_x1 else -1
             horizontal = True
-            step = height
-            length = width / step
+            step = height + 1
+            length = width // step
             steps = self._calculate_steps(length, step, width)
-
+            print("width ", width, " heught ", height)
+            print("steps", steps)
         else:
+            height += 1
             if pos_y2 < pos_y1:
                 pos_x1, pos_x2 = pos_x2, pos_x1
                 pos_y1, pos_y2 = pos_y2, pos_y1
             offset_y = 1 if pos_y2 > pos_y1 else -1
             offset_x = 1 if pos_x2 > pos_x1 else -1
             horizontal = False
-            step = width
-            length = height / step
+            step = width + 1
+            length = height // step
             steps = self._calculate_steps(length, step, height)
+            print("length ", length, " heught ", height)
+            print("steps", steps)
         delta_y = 0
         delta_x = 0
         for idx, step in enumerate(steps):
             if horizontal:
-                for appendix in range(int(step)+1):
+                for appendix in range(int(step)):
                     self.draw_pixel(
                         int(pos_x1 + delta_x + appendix),
                         int(pos_y1 + (idx * offset_y))
                     )
                 delta_x += step * offset_x
             else:
-                for appendix in range(int(step)+1):
+                for appendix in range(int(step)):
                     self.draw_pixel(
                         int(pos_x1 + (idx * offset_x)),
                         int(pos_y1 + delta_y + appendix)
