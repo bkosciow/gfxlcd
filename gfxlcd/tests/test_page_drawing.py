@@ -7,7 +7,6 @@ from gfxlcd.driver.null.null_page import NullPage
 class TestPageDrawing(object):
     def setUp(self):
         self.lcd = NullPage(10, 16, None, False)
-        self.buffer = [[0] * (16 // 8) for x in range(10)]
         self.lcd.init()
 
     def get_buffer(self):
@@ -18,7 +17,7 @@ class TestPageDrawing(object):
         assert_equal(self.lcd.height, 16)
 
     def test_empty_buffer_after_init(self):
-        assert_equal(self.lcd.buffer, self.buffer)
+        assert_equal(self.lcd.buffer, self.get_buffer())
 
     def test_draw_pixel(self):
         self.lcd.draw_pixel(1, 1)

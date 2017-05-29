@@ -1,4 +1,4 @@
-"""Null Page test chip drover"""
+"""Null Page test chip driver"""
 from gfxlcd.drawing.page import Page
 from gfxlcd.abstract.chip import Chip
 
