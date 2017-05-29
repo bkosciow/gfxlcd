@@ -89,7 +89,6 @@ class TestPageDrawing(object):
         buffer[7][0] = 2
         buffer[8][0] = 2
         buffer[9][0] = 2
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_diagonal_line_even_steps(self):
@@ -105,11 +104,10 @@ class TestPageDrawing(object):
         buffer[7][1] = 16+32
         buffer[8][1] = 64
         buffer[9][1] = 128
-
         self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
-    def test_draw_diagonal_line_odd_steps_even_rest(self):
+    def test_draw_diagonal_line_even_steps_even_rest(self):
         self.lcd.draw_line(0, 0, 9, 5)
         buffer = self.get_buffer()
         buffer[0][0] = 1
@@ -123,23 +121,87 @@ class TestPageDrawing(object):
         buffer[8][0] = 16
         buffer[9][0] = 32
 
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
-    def test_draw_diagonal_line_odd_steps_odd_rest(self):
+    def test_draw_diagonal_line_odd_steps_even_rest(self):
         self.lcd.draw_line(0, 0, 9, 6)
         buffer = self.get_buffer()
         buffer[0][0] = 1
         buffer[1][0] = 2
-        buffer[2][0] = 2
+        buffer[2][0] = 4
         buffer[3][0] = 4
-        buffer[4][0] = 4
+        buffer[4][0] = 8
         buffer[5][0] = 8
-        buffer[6][0] = 8
+        buffer[6][0] = 16
         buffer[7][0] = 16
-        buffer[8][0] = 16
-        buffer[9][0] = 32
+        buffer[8][0] = 32
+        buffer[9][0] = 64
 
+        assert_equal(self.lcd.buffer, buffer)
+
+    def test_draw_diagonal_line_even_steps_odd_rest(self):
+        self.lcd.draw_line(0, 0, 9, 6)
+        buffer = self.get_buffer()
+        buffer[0][0] = 1
+        buffer[1][0] = 2
+        buffer[2][0] = 4
+        buffer[3][0] = 4
+        buffer[4][0] = 8
+        buffer[5][0] = 8
+        buffer[6][0] = 16
+        buffer[7][0] = 16
+        buffer[8][0] = 32
+        buffer[9][0] = 64
+
+        assert_equal(self.lcd.buffer, buffer)
+
+    def test_fill_rect(self):
+        self.lcd.fill_rect(2, 2, 7, 11)
+        buffer = self.get_buffer()
+        buffer[2][0] = 4+8+16+32+64+128
+        buffer[3][0] = 4+8+16+32+64+128
+        buffer[4][0] = 4+8+16+32+64+128
+        buffer[5][0] = 4+8+16+32+64+128
+        buffer[6][0] = 4+8+16+32+64+128
+        buffer[7][0] = 4+8+16+32+64+128
+        buffer[2][1] = 1+2+4+8
+        buffer[3][1] = 1+2+4+8
+        buffer[4][1] = 1+2+4+8
+        buffer[5][1] = 1+2+4+8
+        buffer[6][1] = 1+2+4+8
+        buffer[7][1] = 1+2+4+8
+        assert_equal(self.lcd.buffer, buffer)
+
+    def test_draw_circle(self):
+        self.lcd.draw_circle(5, 8, 3)
+        buffer = self.get_buffer()
+        buffer[2][0] = 128
+        buffer[3][0] = 64+128
+        buffer[4][0] = 32+64
+        buffer[5][0] = 32
+        buffer[6][0] = 32+64
+        buffer[7][0] = 64+128
+        buffer[8][0] = 128
+        buffer[2][1] = 1+2
+        buffer[3][1] = 2+4
+        buffer[4][1] = 4+8
+        buffer[5][1] = 8
+        buffer[6][1] = 4+8
+        buffer[7][1] = 2+4
+        buffer[8][1] = 1+2
+        assert_equal(self.lcd.buffer, buffer)
+
+    def test_draw_arc(self):
+        self.lcd.draw_arc(5, 8, 3, 90, 270)
+        buffer = self.get_buffer()
+        buffer[2][0] = 128
+        buffer[3][0] = 64+128
+        buffer[4][0] = 32+64
+        buffer[5][0] = 32
+        buffer[2][1] = 1+2
+        buffer[3][1] = 2+4
+        buffer[4][1] = 4+8
+        buffer[5][1] = 8
         self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 

@@ -23,18 +23,23 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         steps = [length for _ in range(0, step)]
         if step * length < required_length:
             offset = len(steps) // 2
+            rest = required_length - step * length
             steps_even = True if len(steps) & 1 == 0 else False
+            rest_even = True if rest & 1 == 0 else False
             appendix = 0
-            for idx in range(0, required_length - step * length):
+            for idx in range(0, rest):
                 steps[offset + appendix] += 1
                 if steps_even:
                     appendix = self._calculate_appendix(appendix)
-                elif idx > 0:
+                elif idx > 0 and rest_even:
+                    appendix = self._calculate_appendix(appendix)
+                elif not rest_even:
                     appendix = self._calculate_appendix(appendix)
 
         return steps
 
     def _calculate_appendix(self, appendix):
+        """calculate appendix during drawing a line"""
         if appendix == 0:
             appendix = -1
         elif appendix < 0:
@@ -67,8 +72,6 @@ class Page(Pixel, metaclass=abc.ABCMeta):
             step = height + 1
             length = width // step
             steps = self._calculate_steps(length, step, width)
-            print("width ", width, " heught ", height)
-            print("steps", steps)
         else:
             height += 1
             if pos_y2 < pos_y1:
@@ -80,8 +83,6 @@ class Page(Pixel, metaclass=abc.ABCMeta):
             step = width + 1
             length = height // step
             steps = self._calculate_steps(length, step, height)
-            print("length ", length, " heught ", height)
-            print("steps", steps)
         delta_y = 0
         delta_x = 0
         for idx, step in enumerate(steps):
