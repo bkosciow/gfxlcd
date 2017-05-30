@@ -104,3 +104,34 @@ class Pixel(object):
             else:
                 offset_x -= 1
                 err -= 2*offset_x + 1
+
+    def _calculate_line_steps(self, length, step, required_length):
+        """calculate lineparts - helper"""
+        steps = [length for _ in range(0, step)]
+        if step * length < required_length:
+            offset = len(steps) // 2
+            rest = required_length - step * length
+            steps_even = True if len(steps) & 1 == 0 else False
+            rest_even = True if rest & 1 == 0 else False
+            appendix = 0
+            for idx in range(0, rest):
+                steps[offset + appendix] += 1
+                if steps_even:
+                    appendix = self._calculate_line_appendix(appendix)
+                elif idx > 0 and rest_even:
+                    appendix = self._calculate_line_appendix(appendix)
+                elif not rest_even:
+                    appendix = self._calculate_line_appendix(appendix)
+
+        return steps
+
+    def _calculate_line_appendix(self, appendix):
+        """calculate appendix during drawing a line"""
+        if appendix == 0:
+            appendix = -1
+        elif appendix < 0:
+            appendix *= -1
+        else:
+            appendix = (appendix + 1) * -1
+
+        return appendix

@@ -32,48 +32,40 @@ class Area(Pixel):
         for _ in itertools.repeat(None, length):
             self.driver.data(color, None)
 
-    def _calculate_steps(self, length, step, required_length):
-        """calculate lineparts - helper"""
-        steps = [length for _ in range(0, step)]
-        if step * length < required_length:
-            for idx in range(0, required_length - step * length):
-                steps[idx] += 1
-
-        return steps
-
     def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw diagonal line"""
         width = abs(pos_x2 - pos_x1)
         height = abs(pos_y2 - pos_y1)
         if pos_x1 == pos_x2:
-            steps = [height]
+            steps = [height+1]
             horizontal = False
             offset_x = offset_y = 0
         elif pos_y1 == pos_y2:
-            steps = [width]
+            steps = [width+1]
             horizontal = True
             offset_x = offset_y = 0
         elif width > height:
+            width += 1
             if pos_x2 < pos_x1:
                 pos_x1, pos_x2 = pos_x2, pos_x1
                 pos_y1, pos_y2 = pos_y2, pos_y1
             offset_y = 1 if pos_y2 > pos_y1 else -1
             offset_x = 1 if pos_x2 > pos_x1 else -1
             horizontal = True
-            step = height
-            length = width / step
-            steps = self._calculate_steps(length, step, width)
-
+            step = height + 1
+            length = width // step
+            steps = self._calculate_line_steps(length, step, width)
         else:
+            height += 1
             if pos_y2 < pos_y1:
                 pos_x1, pos_x2 = pos_x2, pos_x1
                 pos_y1, pos_y2 = pos_y2, pos_y1
             offset_y = 1 if pos_y2 > pos_y1 else -1
             offset_x = 1 if pos_x2 > pos_x1 else -1
             horizontal = False
-            step = width
-            length = height / step
-            steps = self._calculate_steps(length, step, height)
+            step = width + 1
+            length = height // step
+            steps = self._calculate_line_steps(length, step, height)
 
         delta_y = 0
         delta_x = 0
