@@ -182,6 +182,41 @@ class TestPageDrawing(object):
         self.draw_buffer(self.drv.buffer)
         assert_equal(self.drv.buffer, buffer)
 
+    def test_draw_rect(self):
+        self.lcd.draw_rect(2, 2, 7, 11)
+        buffer = self.get_buffer()
+        buffer[2][2] = 1
+        buffer[2][3] = 1
+        buffer[2][4] = 1
+        buffer[2][5] = 1
+        buffer[2][6] = 1
+        buffer[2][7] = 1
+        buffer[2][8] = 1
+        buffer[2][9] = 1
+        buffer[2][10] = 1
+        buffer[2][11] = 1
+        buffer[7][2] = 1
+        buffer[7][3] = 1
+        buffer[7][4] = 1
+        buffer[7][5] = 1
+        buffer[7][6] = 1
+        buffer[7][7] = 1
+        buffer[7][8] = 1
+        buffer[7][9] = 1
+        buffer[7][10] = 1
+        buffer[7][11] = 1
+
+        buffer[3][2] = 1
+        buffer[4][2] = 1
+        buffer[5][2] = 1
+        buffer[6][2] = 1
+        buffer[3][11] = 1
+        buffer[4][11] = 1
+        buffer[5][11] = 1
+        buffer[6][11] = 1
+        self.draw_buffer(self.drv.buffer)
+        assert_equal(self.drv.buffer, buffer)
+
     def draw_buffer(self, buffer):
         for y in range(self.lcd.height):
             row = ""

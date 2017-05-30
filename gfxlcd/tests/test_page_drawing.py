@@ -153,6 +153,25 @@ class TestPageDrawing(object):
         self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
+    def test_draw_rect(self):
+        self.lcd.draw_rect(2, 2, 7, 11)
+        buffer = self.get_buffer()
+        buffer[2][0] = 4+8+16+32+64+128
+        buffer[3][0] = 4
+        buffer[4][0] = 4
+        buffer[5][0] = 4
+        buffer[6][0] = 4
+        buffer[7][0] = 4+8+16+32+64+128
+
+        buffer[2][1] = 1+2+4+8
+        buffer[3][1] = 8
+        buffer[4][1] = 8
+        buffer[5][1] = 8
+        buffer[6][1] = 8
+        buffer[7][1] = 1+2+4+8
+        self.draw_buffer(self.lcd.buffer)
+        assert_equal(self.lcd.buffer, buffer)
+
     def test_fill_rect(self):
         self.lcd.fill_rect(2, 2, 7, 11)
         buffer = self.get_buffer()
