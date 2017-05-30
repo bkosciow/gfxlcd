@@ -11,11 +11,11 @@ class NullArea(Area, Chip):
         self.rotation = 0
 
     def _converted_background_color(self):
-        """color from 8-8-8 to 5-6-5"""
+        """dummy background color"""
         return 2
 
     def _converted_color(self):
-        """color from 8-8-8 to 5-6-5"""
+        """dummy color"""
         return 1
 
     def init(self):

@@ -4,7 +4,7 @@ from gfxlcd.abstract.driver import Driver
 
 
 class AreaDriver(Driver):
-    """SPI communication driver"""
+    """Null communication driver"""
     def __init__(self, width, height):
         self.height = height
         self.width = width
