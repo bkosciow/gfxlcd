@@ -217,6 +217,15 @@ class TestPageDrawing(object):
         self.draw_buffer(self.drv.buffer)
         assert_equal(self.drv.buffer, buffer)
 
+    def test_fill_rect(self):
+        self.lcd.fill_rect(2, 2, 7, 11)
+        buffer = self.get_buffer()
+        for x in range(6):
+            for y in range(10):
+                buffer[2+x][2+y] = 2
+        self.draw_buffer(self.drv.buffer)
+        assert_equal(self.drv.buffer, buffer)
+
     def draw_buffer(self, buffer):
         for y in range(self.lcd.height):
             row = ""
