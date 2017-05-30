@@ -1,3 +1,6 @@
+0.6.0
+    - tests
+    - fix area drawing
 0.5.0
     - tests
     - fix page drawing
