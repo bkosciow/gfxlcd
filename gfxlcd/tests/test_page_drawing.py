@@ -103,7 +103,6 @@ class TestPageDrawing(object):
         buffer[7][1] = 16+32
         buffer[8][1] = 64
         buffer[9][1] = 128
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_diagonal_line_even_steps_even_rest(self):
@@ -119,7 +118,6 @@ class TestPageDrawing(object):
         buffer[7][0] = 16
         buffer[8][0] = 16
         buffer[9][0] = 32
-
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_diagonal_line_odd_steps_even_rest(self):
@@ -135,7 +133,6 @@ class TestPageDrawing(object):
         buffer[7][0] = 16
         buffer[8][0] = 32
         buffer[9][0] = 64
-
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_diagonal_line_even_steps_odd_rest(self):
@@ -150,7 +147,6 @@ class TestPageDrawing(object):
         buffer[6][0] = 16
         buffer[7][0] = 32
         buffer[8][0] = 64
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_rect(self):
@@ -169,7 +165,6 @@ class TestPageDrawing(object):
         buffer[5][1] = 8
         buffer[6][1] = 8
         buffer[7][1] = 1+2+4+8
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def test_fill_rect(self):
@@ -219,7 +214,6 @@ class TestPageDrawing(object):
         buffer[3][1] = 2+4
         buffer[4][1] = 4+8
         buffer[5][1] = 8
-        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def draw_buffer(self, buffer):
