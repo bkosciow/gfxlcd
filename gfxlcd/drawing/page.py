@@ -18,37 +18,6 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         self.buffer[pos_x][pos_y//8] |= 1 << (pos_y % 8)
         self.flush()
 
-    def _calculate_steps(self, length, step, required_length):
-        """calculate lineparts - helper"""
-        steps = [length for _ in range(0, step)]
-        if step * length < required_length:
-            offset = len(steps) // 2
-            rest = required_length - step * length
-            steps_even = True if len(steps) & 1 == 0 else False
-            rest_even = True if rest & 1 == 0 else False
-            appendix = 0
-            for idx in range(0, rest):
-                steps[offset + appendix] += 1
-                if steps_even:
-                    appendix = self._calculate_appendix(appendix)
-                elif idx > 0 and rest_even:
-                    appendix = self._calculate_appendix(appendix)
-                elif not rest_even:
-                    appendix = self._calculate_appendix(appendix)
-
-        return steps
-
-    def _calculate_appendix(self, appendix):
-        """calculate appendix during drawing a line"""
-        if appendix == 0:
-            appendix = -1
-        elif appendix < 0:
-            appendix *= -1
-        else:
-            appendix = (appendix + 1) * -1
-
-        return appendix
-
     def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw diagonal line"""
         width = abs(pos_x2 - pos_x1)
@@ -71,7 +40,7 @@ class Page(Pixel, metaclass=abc.ABCMeta):
             horizontal = True
             step = height + 1
             length = width // step
-            steps = self._calculate_steps(length, step, width)
+            steps = self._calculate_line_steps(length, step, width)
         else:
             height += 1
             if pos_y2 < pos_y1:
@@ -82,7 +51,7 @@ class Page(Pixel, metaclass=abc.ABCMeta):
             horizontal = False
             step = width + 1
             length = height // step
-            steps = self._calculate_steps(length, step, height)
+            steps = self._calculate_line_steps(length, step, height)
         delta_y = 0
         delta_x = 0
         for idx, step in enumerate(steps):
