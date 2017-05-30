@@ -139,19 +139,18 @@ class TestPageDrawing(object):
         assert_equal(self.lcd.buffer, buffer)
 
     def test_draw_diagonal_line_even_steps_odd_rest(self):
-        self.lcd.draw_line(0, 0, 9, 6)
+        self.lcd.draw_line(0, 0, 8, 6)
         buffer = self.get_buffer()
         buffer[0][0] = 1
         buffer[1][0] = 2
         buffer[2][0] = 4
-        buffer[3][0] = 4
+        buffer[3][0] = 8
         buffer[4][0] = 8
         buffer[5][0] = 8
         buffer[6][0] = 16
-        buffer[7][0] = 16
-        buffer[8][0] = 32
-        buffer[9][0] = 64
-
+        buffer[7][0] = 32
+        buffer[8][0] = 64
+        self.draw_buffer(self.lcd.buffer)
         assert_equal(self.lcd.buffer, buffer)
 
     def test_fill_rect(self):
