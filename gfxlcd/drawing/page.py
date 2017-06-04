@@ -11,10 +11,16 @@ class Page(Pixel, metaclass=abc.ABCMeta):
 
     def init(self):
         """init page"""
-        self.buffer = [[0] * (self.height // 8) for x in range(self.width)]
+        #self.rotate = rotate
+        if self.rotation == 0 or self.rotation == 180:
+            self.buffer = [[0] * (self.height // 8) for x in range(self.width)]
+        else:
+            self.buffer = [[0] * (self.width // 8) for x in range(self.height)]
 
     def draw_pixel(self, pos_x, pos_y):
         """draw a pixel at x,y"""
+        if self.rotation == 90 or self.rotation == 270:
+            pos_x, pos_y = pos_y, pos_x
         self.buffer[pos_x][pos_y//8] |= 1 << (pos_y % 8)
         self.flush()
 

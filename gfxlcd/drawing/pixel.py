@@ -6,6 +6,7 @@ class Pixel(object):
     """Pixel class"""
     def __init__(self, driver):
         self.driver = driver
+        self.rotation = 0
         self.options['color'] = {
             'R': 255, 'G': 255, 'B': 255
         }
@@ -36,11 +37,11 @@ class Pixel(object):
         self.options['transparency_color'] = transparency_color
 
     def draw_pixel(self, pos_x, pos_y):
-        """dummy fuction"""
+        """dummy function"""
         pass
 
     def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
-        """dummy fuction"""
+        """dummy function"""
         pass
 
     def draw_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):

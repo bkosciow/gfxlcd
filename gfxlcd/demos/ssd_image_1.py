@@ -1,0 +1,19 @@
+import RPi.GPIO
+import sys
+from PIL import Image
+sys.path.append("../../")
+from gfxlcd.driver.ssd1306.spi import SPI
+from gfxlcd.driver.ssd1306.ssd1306 import SSD1306
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+lcd_oled = SSD1306(128, 64, SPI())
+lcd_oled.rotation = 270
+lcd_oled.init()
+lcd_oled.auto_flush = False
+
+image_file = Image.open("assets/20x20.png")
+lcd_oled.threshold = 0
+
+lcd_oled.draw_image(10, 0, image_file)
+
+lcd_oled.flush(True)
