@@ -101,10 +101,15 @@ class SSD1306(Page, Chip):
 
     def set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """set area to work on"""
-
         self.driver.cmd(0x22)
         self.driver.cmd(0xb0 + pos_y1)
         self.driver.cmd(0xb0 + pos_y2)
         self.driver.cmd(0x21)
         self.driver.cmd(pos_x1)
         self.driver.cmd(pos_x2)
+
+    def draw_pixel(self, pos_x, pos_y):
+        """draw a pixel at x,y"""
+        if self.rotation == 90 or self.rotation == 270:
+            pos_x, pos_y = pos_y, pos_x
+        Page.draw_pixel(self, pos_x, pos_y)
