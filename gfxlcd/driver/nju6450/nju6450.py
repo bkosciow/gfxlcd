@@ -24,12 +24,16 @@ class NJU6450(Page, Chip):
 
     def set_xy(self, pos_x, pos_y):
         """set xy pos"""
-        if pos_x < self.width/2:
+        if self.rotation == 0 or self.rotation == 180:
+            width = self.width
+        else:
+            width = self.height
+        if pos_x < width//2:
             self.driver.cmd(0xB8 | pos_y, 0)
             self.driver.cmd(0x00 | pos_x, 0)
         else:
             self.driver.cmd(0xB8 | pos_y, 1)
-            self.driver.cmd(0x00 | (pos_x - self.width//2), 1)
+            self.driver.cmd(0x00 | (pos_x - width//2), 1)
 
     def _converted_background_color(self):
         """convert RGB background to available color"""
@@ -46,10 +50,37 @@ class NJU6450(Page, Chip):
             force = self.options['auto_flush']
 
         if force:
-            for j in range(0, self.height//8):
-                for i in range(0, self.width):
+            if self.rotation == 0 or self.rotation == 180:
+                height, width = self.height, self.width
+            else:
+                width, height = self.height, self.width
+            for j in range(0, height//8):
+                for i in range(0, width):
                     self.set_xy(i, j)
-                    if i < self.width/2:
+                    if i < width//2:
                         self.driver.data(self.get_page_value(i, j), 0)
                     else:
                         self.driver.data(self.get_page_value(i, j), 1)
+
+    def draw_pixel(self, pos_x, pos_y):
+        """draw a pixel at x,y"""
+        if self.rotation == 90:
+            pos_x, pos_y = self.height - pos_y - 1, pos_x
+        if self.rotation == 180:
+            pos_x, pos_y = self.width - pos_x - 1, self.height - pos_y - 1
+        if self.rotation == 270:
+            pos_x, pos_y = pos_y, self.width - pos_x - 1
+        Page.draw_pixel(self, pos_x, pos_y)
+
+    def fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):
+        """draw a filled rectangle"""
+        if self.rotation == 90:
+            pos_x1, pos_y1 = self.height - pos_y1 - 1, pos_x1
+            pos_x2, pos_y2 = self.height - pos_y2 - 1, pos_x2
+        if self.rotation == 180:
+            pos_x1, pos_y1 = self.width - pos_x1 - 1, self.height - pos_y1 - 1
+            pos_x2, pos_y2 = self.width - pos_x2 - 1, self.height - pos_y2 - 1
+        if self.rotation == 270:
+            pos_x1, pos_y1 = pos_y1 , self.width - pos_x1 - 1
+            pos_x2, pos_y2 = pos_y2 , self.width - pos_x2 - 1
+        Page.fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2)
