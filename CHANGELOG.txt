@@ -1,3 +1,6 @@
+0.7.0
+    - add draw_text function
+    - add font 8x8 as default
 0.6.0
     - tests
     - fix area drawing
