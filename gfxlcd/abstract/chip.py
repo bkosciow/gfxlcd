@@ -1,5 +1,6 @@
 """Chip interface"""
 import abc
+from gfxlcd.font.font8x8 import Font8x8
 
 
 class Chip(metaclass=abc.ABCMeta):
@@ -11,6 +12,7 @@ class Chip(metaclass=abc.ABCMeta):
         self._height = height
         self.driver = driver
         self.options['auto_flush'] = auto_flush
+        self.options['font'] = Font8x8()
 
     @property
     def width(self):
@@ -72,6 +74,16 @@ class Chip(metaclass=abc.ABCMeta):
         """set auto_flush"""
         self.options['auto_flush'] = bool(value)
 
+    @property
+    def font(self):
+        """get current font"""
+        return self.options['font']
+
+    @font.setter
+    def font(self, font):
+        """set ttf font"""
+        self.options['font'] = font
+
     @abc.abstractmethod
     def init(self):
         """init a chipset"""
@@ -110,4 +122,9 @@ class Chip(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def draw_image(self, pos_x, pos_y, image):
         """draw a PIL image"""
+        pass
+
+    @abc.abstractmethod
+    def draw_text(self, pos_x, pos_y, text):
+        """draw a text"""
         pass

@@ -136,3 +136,22 @@ class Pixel(object):
             appendix = (appendix + 1) * -1
 
         return appendix
+
+    def draw_text(self, pos_x, pos_y, text):
+        """draw a text"""
+        font = self.options['font']
+        idx = 0
+        for letter in text:
+            self._draw_letter(pos_x + idx, pos_y, letter)
+            idx += font.size[0]
+
+    def _draw_letter(self, pos_x, pos_y, letter):
+        """draw a letter"""
+        font = self.options['font']
+        bits = font.size[0]
+        for row, data in enumerate(font.get(letter)):
+            for bit in range(bits):
+                if data & 0x01:
+                    self.draw_pixel(pos_x + bit, pos_y + row)
+                data >>= 1
+

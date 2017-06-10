@@ -32,7 +32,7 @@ class SSD1306(Page, Chip):
     def init(self):
         """inits a device"""
         self.driver.init()
-        Page.init(self)#, self.rotate)
+        Page.init(self)
         Chip.init(self)
         self.driver.reset()
         self.driver.cmd(0xae)  # turn off panel

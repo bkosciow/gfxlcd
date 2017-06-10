@@ -3,6 +3,7 @@ from gfxlcd.drawing.page import Page
 from gfxlcd.abstract.chip import Chip
 
 
+
 class NJU6450(Page, Chip):
     """Class for an LCD with NJU6450 chip"""
     def __init__(self, width, height, driver, auto_flush=True):

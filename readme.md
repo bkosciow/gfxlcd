@@ -13,7 +13,7 @@ Supported:
 And for touch panels:
 
 - ad7843 via SPI, uses irq or not
-- ad7866/xpt2046
+- ad7846/xpt2046
 
 On NJU and SSD uses buffer to keep current content as help for page operations.
 
@@ -131,6 +131,8 @@ fill_rect(x1, y1, x2, y2)
 
 draw_image(x, y, PIL.Image)
 
+draw_text(x, y, text)
+
 Colours
 ===
 lcd.color = (r, g, b)
@@ -141,6 +143,15 @@ lcd.threshold = 255 - for images a threshold between black and white (on monochr
 
 lcd.transparency_color = [110, 57] #110 - color(s) that are skipped during drawing an image
 
+Fonts
+===
+Font class implements Font abstract and is a class that has a dictionary with each char:
+
+    (..)
+    [0x3C, 0x66, 0x03, 0x03, 0x73, 0x66, 0x7C, 0x00],   # U+0047 (G)
+    (..)
+
+There is one font for now, 8x8 and named **Font8x8** and is used by default.
 
 Touch panels
 ===
