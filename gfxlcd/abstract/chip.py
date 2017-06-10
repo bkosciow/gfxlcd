@@ -1,5 +1,6 @@
 """Chip interface"""
 import abc
+from gfxlcd.font.font8x8 import Font8x8
 
 
 class Chip(metaclass=abc.ABCMeta):
@@ -11,7 +12,7 @@ class Chip(metaclass=abc.ABCMeta):
         self._height = height
         self.driver = driver
         self.options['auto_flush'] = auto_flush
-        self.options['font'] = None
+        self.options['font'] = Font8x8()
 
     @property
     def width(self):
