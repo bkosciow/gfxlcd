@@ -1,6 +1,7 @@
 """NJU6450 chip"""
 from gfxlcd.drawing.page import Page
 from gfxlcd.abstract.chip import Chip
+from gfxlcd.font.font8x8 import Font8x8
 
 
 class NJU6450(Page, Chip):
@@ -9,6 +10,7 @@ class NJU6450(Page, Chip):
         Chip.__init__(self, width, height, driver, auto_flush)
         Page.__init__(self, driver)
         self.rotation = 0
+        self.options['font'] = Font8x8()
 
     def init(self):
         """initialize display"""
