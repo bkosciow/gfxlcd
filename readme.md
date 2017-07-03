@@ -15,11 +15,17 @@ And for touch panels:
 - ad7843 via SPI, uses irq or not
 - ad7846/xpt2046
 
+Bonus
+
+- HD44780 emulation (works with CharLCD)
+
+
 On NJU and SSD uses buffer to keep current content as help for page operations.
 
 Wiring is below
 
 Demos are in demos directory
+
 
 LCD initialization
 ===
@@ -269,3 +275,23 @@ Default:
     G9  ----------------- LCD_CS
     G7  ----------------- TP_CS
 
+
+HD44780 emulation
+===
+
+This driver can work with CharLCD and emulate char LCD
+
+    ili_drv = ILIGPIO()
+    ili_drv.pins['LED'] = 6
+    ili_drv.pins['CS'] = 18
+    lcd = ILI9325(240, 320, ili_drv)
+    lcd.auto_flush = False
+    lcd.rotation = 0
+
+    drv = HD44780(lcd)
+    lcd = CharLCD(drv.width, drv.height, drv, 0, 0)
+    lcd.init()
+
+    lcd.write('-!Second blarg!')
+    lcd.write("-second line", 0, 1)
+    lcd.flush()
