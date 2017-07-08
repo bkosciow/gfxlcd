@@ -160,3 +160,27 @@ class Area(Pixel):
                 return True
 
         return False
+
+    def _draw_letter(self, pos_x, pos_y, letter, with_background=False):
+        """draw a letter"""
+        if not with_background:
+            super()._draw_letter(pos_x, pos_y, letter, with_background)
+        else:
+            font = self.options['font']
+            self._set_area(
+                pos_x,
+                pos_y,
+                pos_x + font.size[0] - 1,
+                pos_y + font.size[1] - 1
+            )
+
+            bits = font.size[0]
+            color = self._convert_color(self.options['color'])
+            background_color = self._convert_color(self.options['background_color'])
+            for row, data in enumerate(font.get(letter)):
+                for bit in range(bits):
+                    if data & 0x01:
+                        self.driver.data(color, None)
+                    elif with_background:
+                        self.driver.data(background_color, None)
+                    data >>= 1

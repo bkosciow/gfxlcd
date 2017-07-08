@@ -152,8 +152,12 @@ class Pixel(object):
         for row, data in enumerate(font.get(letter)):
             for bit in range(bits):
                 if data & 0x01:
-                    self.draw_pixel(pos_x + bit, pos_y + row)
+                    self.draw_pixel(
+                        pos_x + bit, pos_y + row, self.color
+                    )
                 elif with_background:
-                    self.draw_pixel(pos_x + bit, pos_y + row)
+                    self.draw_pixel(
+                        pos_x + bit, pos_y + row, self.background_color
+                    )
                 data >>= 1
 

@@ -60,7 +60,7 @@ class HD44780(BaseDriver):
     def char(self, char, enable=0):
         """write char to lcd"""
         self.gfxlcd.draw_text(
-            self.position['x'], self.position['y'], char
+            self.position['x'], self.position['y'], char, True
         )
         self._increase_x()
 
