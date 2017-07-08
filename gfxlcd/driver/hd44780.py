@@ -2,15 +2,16 @@
 allows graphical LCD to work as character LCD
 """
 from charlcd.drivers.base import BaseDriver
-from charlcd.abstract import lcd as char_lcd
+from charlcd.abstract.flush_event_interface import FlushEvent
 
 
-class HD44780(BaseDriver):
-    def __init__(self, gfxlcd):
+class HD44780(BaseDriver, FlushEvent):
+    def __init__(self, gfxlcd, lcd_flush=False):
         """Class init"""
         self.gfxlcd = gfxlcd
         self.mode = 0
         self.initialized = False
+        self.lcd_flush = lcd_flush
         self.font = self.gfxlcd.options['font']
         self.width = self.gfxlcd.width // self.font.size[0]
         self.height = self.gfxlcd.height // self.font.size[1]
@@ -73,3 +74,11 @@ class HD44780(BaseDriver):
 
     def get_line_address(self, idx):
         return self.address[idx]
+
+    def pre_flush(self, buffer):
+        pass
+
+    def post_flush(self, buffer):
+        """called after flush()"""
+        if self.lcd_flush:
+            self.gfxlcd.flush(True)

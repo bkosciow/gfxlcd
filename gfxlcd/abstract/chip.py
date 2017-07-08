@@ -85,7 +85,7 @@ class Chip(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def draw_pixel(self, pos_x, pos_y):
+    def draw_pixel(self, pos_x, pos_y, color=None):
         """draw a pixel at x,y"""
         pass
 

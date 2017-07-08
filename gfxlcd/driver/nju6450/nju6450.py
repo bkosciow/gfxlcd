@@ -6,7 +6,7 @@ from gfxlcd.abstract.chip import Chip
 
 class NJU6450(Page, Chip):
     """Class for an LCD with NJU6450 chip"""
-    def __init__(self, width, height, driver, auto_flush=True):
+    def __init__(self, width, height, driver, auto_flush=False):
         Chip.__init__(self, width, height, driver, auto_flush)
         Page.__init__(self, driver)
         self.rotation = 0
@@ -62,7 +62,7 @@ class NJU6450(Page, Chip):
                     else:
                         self.driver.data(self.get_page_value(i, j), 1)
 
-    def draw_pixel(self, pos_x, pos_y):
+    def draw_pixel(self, pos_x, pos_y, color=None):
         """draw a pixel at x,y"""
         if self.rotation == 90:
             pos_x, pos_y = self.height - pos_y - 1, pos_x
@@ -70,7 +70,7 @@ class NJU6450(Page, Chip):
             pos_x, pos_y = self.width - pos_x - 1, self.height - pos_y - 1
         if self.rotation == 270:
             pos_x, pos_y = pos_y, self.width - pos_x - 1
-        Page.draw_pixel(self, pos_x, pos_y)
+        Page.draw_pixel(self, pos_x, pos_y, color)
 
     def fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2):
         """draw a filled rectangle"""
