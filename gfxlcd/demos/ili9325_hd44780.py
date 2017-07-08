@@ -21,8 +21,12 @@ def test1():
     lcd = CharLCD(drv.width, drv.height, drv, 0, 0)
     lcd.init()
 
-    lcd.write('-!Second blarg!')
-    lcd.write("-second line", 0, 1)
+    lcd.write('First Line')
+    lcd.write("This text is displayed", 2, 18)
+    lcd.write("via CharLCD package", 10, 20)
+    lcd.write('GfxLCD uses driver', 1, 22)
+    lcd.write('to be compatible with', 9, 24)
+    lcd.write('HD44780', 10, 26)
     lcd.flush()
 
     lcd.write('/* ', 19, 0)

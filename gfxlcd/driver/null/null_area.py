@@ -10,13 +10,9 @@ class NullArea(Area, Chip):
         Area.__init__(self, driver)
         self.rotation = 0
 
-    def _converted_background_color(self):
-        """dummy background color"""
-        return 2
-
-    def _converted_color(self):
-        """dummy color"""
-        return 1
+    def _convert_color(self, color):
+        """color color"""
+        return color
 
     def init(self):
         """init display"""

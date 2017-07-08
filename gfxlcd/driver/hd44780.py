@@ -21,14 +21,14 @@ class HD44780(BaseDriver):
             'x': 0,
             'y': 0
         }
+        self.address = []
 
     def init(self):
         """init function"""
         if self.initialized:
             return
-        char_lcd.LCD_LINES = []
         for address in range(self.height):
-            char_lcd.LCD_LINES.append(100 + (address * self.width))
+            self.address.append(100 + (address * self.width))
 
         self.gfxlcd.init()
         self.initialized = True
@@ -71,3 +71,5 @@ class HD44780(BaseDriver):
     def _increase_x(self):
         self.position['x'] += self.font.size[0]
 
+    def get_line_address(self, idx):
+        return self.address[idx]

@@ -12,19 +12,27 @@ class ILI9486(Area, Chip):
         Chip.__init__(self, width, height, driver, True)
         Area.__init__(self, driver)
 
-    def _converted_background_color(self):
-        """color from 8-8-8 to 5-6-5"""
-        rgb = self.options['background_color']['R'] << 16 | \
-            self.options['background_color']['G'] << 8 | \
-            self.options['background_color']['B']
-        return ((rgb & 0x00f80000) >> 8) |\
-            ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
+    # def _converted_background_color(self):
+    #     """color from 8-8-8 to 5-6-5"""
+    #     rgb = self.options['background_color']['R'] << 16 | \
+    #         self.options['background_color']['G'] << 8 | \
+    #         self.options['background_color']['B']
+    #     return ((rgb & 0x00f80000) >> 8) |\
+    #         ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
+    #
+    # def _converted_color(self):
+    #     """color from 8-8-8 to 5-6-5"""
+    #     rgb = self.options['color']['R'] << 16 | \
+    #         self.options['color']['G'] << 8 | \
+    #         self.options['color']['B']
+    #     return ((rgb & 0x00f80000) >> 8) |\
+    #         ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
 
-    def _converted_color(self):
+    def _convert_color(self, color):
         """color from 8-8-8 to 5-6-5"""
-        rgb = self.options['color']['R'] << 16 | \
-            self.options['color']['G'] << 8 | \
-            self.options['color']['B']
+        rgb = color['R'] << 16 | \
+            color['G'] << 8 | \
+            color['B']
         return ((rgb & 0x00f80000) >> 8) |\
             ((rgb & 0x0000fc00) >> 5) | ((rgb & 0x000000f8) >> 3)
 

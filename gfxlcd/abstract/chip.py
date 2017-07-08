@@ -30,14 +30,19 @@ class Chip(metaclass=abc.ABCMeta):
         else:
             return self._width
 
-    @abc.abstractmethod
-    def _converted_background_color(self):
-        """convert RGB background to available color"""
-        pass
+    # @abc.abstractmethod
+    # def _converted_background_color(self):
+    #     """convert RGB background to available color"""
+    #     pass
+    #
+    # @abc.abstractmethod
+    # def _converted_color(self):
+    #     """convert RGB color to available color"""
+    #     pass
 
     @abc.abstractmethod
-    def _converted_color(self):
-        """convert RGB color to available color"""
+    def _convert_color(self, color):
+        """convert color to avaible one"""
         pass
 
     @property

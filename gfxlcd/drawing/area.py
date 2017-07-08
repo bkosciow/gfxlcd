@@ -13,22 +13,24 @@ class Area(Pixel):
         """additional initialization"""
         pass
 
-    def draw_pixel(self, pos_x, pos_y):
+    def draw_pixel(self, pos_x, pos_y, color=None):
         """draw one pixel"""
+        if color is None:
+            color = self.options['color']
         self._set_area(pos_x, pos_y, pos_x, pos_y)
-        self.driver.data(self._converted_color(), None)
+        self.driver.data(self._convert_color(color), None)
 
     def _draw_vertical_line(self, pos_x, pos_y, length):
         """draw vertical line"""
         self._set_area(pos_x, pos_y, pos_x, pos_y + length)
-        color = self._converted_color()
+        color = self._convert_color(self.options['color'])
         for _ in itertools.repeat(None, length):
             self.driver.data(color, None)
 
     def _draw_horizontal_line(self, pos_x, pos_y, length):
         """draw horizontal line"""
         self._set_area(pos_x, pos_y, pos_x + length, pos_y)
-        color = self._converted_color()
+        color = self._convert_color(self.options['color'])
         for _ in itertools.repeat(None, length):
             self.driver.data(color, None)
 
@@ -94,7 +96,8 @@ class Area(Pixel):
             max(pos_x1, pos_x2),
             max(pos_y1, pos_y2)
         )
-        color = self._converted_background_color()
+        # color = self._converted_background_color()
+        color = self._convert_color(self.options['background_color'])
         for _ in range(0, size):
             self.driver.data(color, None)
 
@@ -131,7 +134,9 @@ class Area(Pixel):
                     self._set_area(*temporary_area)
                     temporary_area = None
                 self.color = (red, green, blue)
-                self.driver.data(self._converted_color(), None)
+                self.driver.data(
+                    self._convert_color(self.options['color']), None
+                )
 
             col += 1
             if col > width - 1:
