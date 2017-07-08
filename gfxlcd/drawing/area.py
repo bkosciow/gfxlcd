@@ -181,6 +181,6 @@ class Area(Pixel):
                 for bit in range(bits):
                     if data & 0x01:
                         self.driver.data(color, None)
-                    elif with_background:
+                    else:
                         self.driver.data(background_color, None)
                     data >>= 1
