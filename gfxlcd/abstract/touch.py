@@ -1,12 +1,13 @@
 """Touch panel interface"""
-import spidev  # pylint: disable=I0011,F0401
 import abc
-import RPi.GPIO
+import spidev  # pylint: disable=I0011,F0401
+import RPi.GPIO  # pylint: disable=I0011,F0401
 
 
 class Touch(metaclass=abc.ABCMeta):
     """Touch class"""
-    def __init__(self, width, height, int_pin=None, callback=None, cs_pin=None, spi=0, speed=1000000):
+    def __init__(self, width, height, int_pin=None,
+                 callback=None, cs_pin=None, spi=0, speed=1000000):
         self.width = width
         self.height = height
         self.spi = spidev.SpiDev()
@@ -30,7 +31,8 @@ class Touch(metaclass=abc.ABCMeta):
         if self.int_pin:
             RPi.GPIO.setup(self.int_pin, RPi.GPIO.IN)
             RPi.GPIO.add_event_detect(
-                self.int_pin, RPi.GPIO.BOTH, callback=self._interrupt, bouncetime=self.bouncetime
+                self.int_pin, RPi.GPIO.BOTH, callback=self._interrupt,
+                bouncetime=self.bouncetime
             )
         if self.cs_pin:
             RPi.GPIO.setup(self.cs_pin, RPi.GPIO.OUT)
@@ -53,7 +55,7 @@ class Touch(metaclass=abc.ABCMeta):
 
     def _calculate_avr(self, points):
         """calculate x,y by average"""
-        if len(points) == 0:
+        if not points:
             return None
         sum_x = 0
         sum_y = 0
@@ -67,5 +69,4 @@ class Touch(metaclass=abc.ABCMeta):
         """checks if point is in range"""
         if self.rotate == 0 or self.rotate == 180:
             return 0 <= pos_x <= self.width and 0 <= pos_y <= self.height
-        else:
-            return 0 <= pos_y <= self.width and 0 <= pos_x <= self.height
+        return 0 <= pos_y <= self.width and 0 <= pos_x <= self.height

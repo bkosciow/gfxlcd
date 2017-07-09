@@ -3,7 +3,6 @@ from gfxlcd.drawing.page import Page
 from gfxlcd.abstract.chip import Chip
 
 
-
 class NJU6450(Page, Chip):
     """Class for an LCD with NJU6450 chip"""
     def __init__(self, width, height, driver, auto_flush=False):
@@ -81,6 +80,6 @@ class NJU6450(Page, Chip):
             pos_x1, pos_y1 = self.width - pos_x1 - 1, self.height - pos_y1 - 1
             pos_x2, pos_y2 = self.width - pos_x2 - 1, self.height - pos_y2 - 1
         if self.rotation == 270:
-            pos_x1, pos_y1 = pos_y1 , self.width - pos_x1 - 1
-            pos_x2, pos_y2 = pos_y2 , self.width - pos_x2 - 1
+            pos_x1, pos_y1 = pos_y1, self.width - pos_x1 - 1
+            pos_x2, pos_y2 = pos_y2, self.width - pos_x2 - 1
         Page.fill_rect(self, pos_x1, pos_y1, pos_x2, pos_y2)

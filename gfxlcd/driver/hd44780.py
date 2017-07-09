@@ -6,6 +6,7 @@ from charlcd.abstract.flush_event_interface import FlushEvent
 
 
 class HD44780(BaseDriver, FlushEvent):
+    """HD44780 driver for GfxLCD"""
     def __init__(self, gfxlcd, lcd_flush=False):
         """Class init"""
         self.gfxlcd = gfxlcd
@@ -39,11 +40,11 @@ class HD44780(BaseDriver, FlushEvent):
         if char < 100:
             return
         char -= 100
-        y = char // self.width
-        x = char - (y*self.width)
+        pos_y = char // self.width
+        pos_x = char - (pos_y * self.width)
         self.position = {
-            'x': x * self.font.size[0],
-            'y': y * self.font.size[1]
+            'x': pos_x * self.font.size[0],
+            'y': pos_y * self.font.size[1]
         }
 
     def shutdown(self):

@@ -1,3 +1,4 @@
+"""Page drawing algorithm"""
 import abc
 from gfxlcd.drawing.pixel import Pixel
 

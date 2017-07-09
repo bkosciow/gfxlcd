@@ -160,4 +160,3 @@ class Pixel(object):
                         pos_x + bit, pos_y + row, self.background_color
                     )
                 data >>= 1
-

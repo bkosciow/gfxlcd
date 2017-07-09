@@ -1,6 +1,18 @@
 import sys
-from nose.tools import assert_equal
 sys.path.append("../../")
+from unittest.mock import patch, MagicMock
+
+MockRPi = MagicMock()
+MockSpidev = MagicMock()
+modules = {
+    "RPi": MockRPi,
+    "RPi.GPIO": MockRPi.GPIO,
+    "spidev": MockSpidev
+}
+
+patcher = patch.dict("sys.modules", modules)
+patcher.start()
+
 from gfxlcd.driver.nju6450.gpio import GPIO
 from gfxlcd.driver.nju6450.nju6450 import NJU6450
 

@@ -1,5 +1,4 @@
 """Area driver """
-import time
 from gfxlcd.abstract.driver import Driver
 
 
@@ -32,7 +31,9 @@ class AreaDriver(Driver):
     def data(self, data, enable):
         """send data to display"""
         app_x, app_y = self.pointer
-        self.buffer[self.area['start_x'] + app_x][self.area['start_y'] + app_y] = data
+        self.buffer[
+            self.area['start_x'] + app_x][self.area['start_y'] + app_y
+        ] = data
         self._inc_pointer()
 
     def _inc_pointer(self):
@@ -47,4 +48,3 @@ class AreaDriver(Driver):
             app_y = 0
 
         self.pointer = (app_x, app_y)
-

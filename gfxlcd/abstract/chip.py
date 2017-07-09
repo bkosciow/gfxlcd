@@ -19,16 +19,14 @@ class Chip(metaclass=abc.ABCMeta):
         """get width"""
         if self.rotation == 0 or self.rotation == 180:
             return self._width
-        else:
-            return self._height
+        return self._height
 
     @property
     def height(self):
         """get height"""
         if self.rotation == 0 or self.rotation == 180:
             return self._height
-        else:
-            return self._width
+        return self._width
 
     @abc.abstractmethod
     def _convert_color(self, color):
