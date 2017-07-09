@@ -1,7 +1,5 @@
 import sys
 sys.path.append("../../")
-from gfxlcd.driver.nju6450.gpio import GPIO
-from gfxlcd.driver.nju6450.nju6450 import NJU6450
 from unittest.mock import patch, MagicMock
 
 MockRPi = MagicMock()
@@ -14,6 +12,9 @@ modules = {
 
 patcher = patch.dict("sys.modules", modules)
 patcher.start()
+
+from gfxlcd.driver.nju6450.gpio import GPIO
+from gfxlcd.driver.nju6450.nju6450 import NJU6450
 
 
 class TestNJU6450(object):

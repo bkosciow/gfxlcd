@@ -1,7 +1,5 @@
 import sys
 sys.path.append("../../")
-from gfxlcd.driver.ssd1306.spi import SPI
-from gfxlcd.driver.ssd1306.ssd1306 import SSD1306
 from unittest.mock import patch, MagicMock
 
 MockRPi = MagicMock()
@@ -14,6 +12,9 @@ modules = {
 
 patcher = patch.dict("sys.modules", modules)
 patcher.start()
+
+from gfxlcd.driver.ssd1306.spi import SPI
+from gfxlcd.driver.ssd1306.ssd1306 import SSD1306
 
 
 class TestNJU6450(object):
