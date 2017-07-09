@@ -9,6 +9,8 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         self.driver = driver
         Pixel.__init__(self, driver)
         self.buffer = []
+        self.options['color'] = 1
+        self.options['background_color'] = 0
 
     def init(self):
         """init page"""
@@ -17,11 +19,21 @@ class Page(Pixel, metaclass=abc.ABCMeta):
         else:
             self.buffer = [[0] * (self.width // 8) for x in range(self.height)]
 
+    def _convert_color(self, color):
+        """convert color to available one"""
+        if color == 0:
+            return 0
+
+        return 1
+
     def draw_pixel(self, pos_x, pos_y, color=None):
         """draw a pixel at x,y"""
         if color is None:
             color = self.options['color']
-        self.buffer[pos_x][pos_y//8] |= self._convert_color(color) << (pos_y % 8)
+        if self._convert_color(color) == 1:
+            self.buffer[pos_x][pos_y//8] |= 1 << (pos_y % 8)
+        else:
+            self.buffer[pos_x][pos_y//8] &= ~(1 << (pos_y % 8))
         self.flush()
 
     def draw_line(self, pos_x1, pos_y1, pos_x2, pos_y2):
