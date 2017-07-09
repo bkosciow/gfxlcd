@@ -1,4 +1,5 @@
-import RPi.GPIO
+"""XPT2046 touch pabel driver"""
+import RPi.GPIO  # pylint: disable=I0011,F0401
 from gfxlcd.abstract.touch import Touch
 
 
