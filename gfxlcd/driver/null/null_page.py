@@ -22,12 +22,11 @@ class NullPage(Page, Chip):
         Page.init(self)
         Chip.init(self)
 
-    def _converted_background_color(self):
-        """convert RGB background to available color"""
-        return 1
+    def _convert_color(self, color):
+        """convert color to avaiable one"""
+        if color['R'] == 0 and color['G'] == 0 and color['B'] == 0:
+            return 0
 
-    def _converted_color(self):
-        """convert RGB color to available color"""
         return 1
 
     def flush(self, force=None):

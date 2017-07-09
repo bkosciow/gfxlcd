@@ -36,7 +36,7 @@ class Pixel(object):
         """set transparency color """
         self.options['transparency_color'] = transparency_color
 
-    def draw_pixel(self, pos_x, pos_y):
+    def draw_pixel(self, pos_x, pos_y, color=None):
         """dummy function"""
         pass
 
@@ -137,21 +137,27 @@ class Pixel(object):
 
         return appendix
 
-    def draw_text(self, pos_x, pos_y, text):
+    def draw_text(self, pos_x, pos_y, text, with_background=False):
         """draw a text"""
         font = self.options['font']
         idx = 0
         for letter in text:
-            self._draw_letter(pos_x + idx, pos_y, letter)
+            self._draw_letter(pos_x + idx, pos_y, letter, with_background)
             idx += font.size[0]
 
-    def _draw_letter(self, pos_x, pos_y, letter):
+    def _draw_letter(self, pos_x, pos_y, letter, with_background=False):
         """draw a letter"""
         font = self.options['font']
         bits = font.size[0]
         for row, data in enumerate(font.get(letter)):
             for bit in range(bits):
                 if data & 0x01:
-                    self.draw_pixel(pos_x + bit, pos_y + row)
+                    self.draw_pixel(
+                        pos_x + bit, pos_y + row, self.color
+                    )
+                elif with_background:
+                    self.draw_pixel(
+                        pos_x + bit, pos_y + row, self.background_color
+                    )
                 data >>= 1
 

@@ -2,15 +2,16 @@
 allows graphical LCD to work as character LCD
 """
 from charlcd.drivers.base import BaseDriver
-from charlcd.abstract import lcd as char_lcd
+from charlcd.abstract.flush_event_interface import FlushEvent
 
 
-class HD44780(BaseDriver):
-    def __init__(self, gfxlcd):
+class HD44780(BaseDriver, FlushEvent):
+    def __init__(self, gfxlcd, lcd_flush=False):
         """Class init"""
         self.gfxlcd = gfxlcd
         self.mode = 0
         self.initialized = False
+        self.lcd_flush = lcd_flush
         self.font = self.gfxlcd.options['font']
         self.width = self.gfxlcd.width // self.font.size[0]
         self.height = self.gfxlcd.height // self.font.size[1]
@@ -21,14 +22,14 @@ class HD44780(BaseDriver):
             'x': 0,
             'y': 0
         }
+        self.address = []
 
     def init(self):
         """init function"""
         if self.initialized:
             return
-        char_lcd.LCD_LINES = []
         for address in range(self.height):
-            char_lcd.LCD_LINES.append(100 + (address * self.width))
+            self.address.append(100 + (address * self.width))
 
         self.gfxlcd.init()
         self.initialized = True
@@ -60,7 +61,7 @@ class HD44780(BaseDriver):
     def char(self, char, enable=0):
         """write char to lcd"""
         self.gfxlcd.draw_text(
-            self.position['x'], self.position['y'], char
+            self.position['x'], self.position['y'], char, True
         )
         self._increase_x()
 
@@ -71,3 +72,13 @@ class HD44780(BaseDriver):
     def _increase_x(self):
         self.position['x'] += self.font.size[0]
 
+    def get_line_address(self, idx):
+        return self.address[idx]
+
+    def pre_flush(self, buffer):
+        pass
+
+    def post_flush(self, buffer):
+        """called after flush()"""
+        if self.lcd_flush:
+            self.gfxlcd.flush(True)

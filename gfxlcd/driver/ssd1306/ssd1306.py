@@ -24,7 +24,7 @@ class SSD1306(Page, Chip):
         }
     }
 
-    def __init__(self, width, height, driver, auto_flush=True):
+    def __init__(self, width, height, driver, auto_flush=False):
         Chip.__init__(self, width, height, driver, auto_flush)
         Page.__init__(self, driver)
         self.rotation = 0
@@ -76,12 +76,11 @@ class SSD1306(Page, Chip):
         self.driver.cmd(0x14)  # enable charge pump
         self.driver.cmd(0xaf)  # turn on panel
 
-    def _converted_background_color(self):
-        """convert RGB background to available color"""
-        return 1
+    def _convert_color(self, color):
+        """convert color to avaiable one"""
+        if color['R'] == 0 and color['G'] == 0 and color['B'] == 0:
+            return 0
 
-    def _converted_color(self):
-        """convert RGB color to available color"""
         return 1
 
     def flush(self, force=None):
@@ -108,8 +107,8 @@ class SSD1306(Page, Chip):
         self.driver.cmd(pos_x1)
         self.driver.cmd(pos_x2)
 
-    def draw_pixel(self, pos_x, pos_y):
+    def draw_pixel(self, pos_x, pos_y, color=None):
         """draw a pixel at x,y"""
         if self.rotation == 90 or self.rotation == 270:
             pos_x, pos_y = pos_y, pos_x
-        Page.draw_pixel(self, pos_x, pos_y)
+        Page.draw_pixel(self, pos_x, pos_y, color)
