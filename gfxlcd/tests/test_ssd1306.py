@@ -1,5 +1,4 @@
 import sys
-from nose.tools import assert_equal
 sys.path.append("../../")
 from gfxlcd.driver.ssd1306.spi import SPI
 from gfxlcd.driver.ssd1306.ssd1306 import SSD1306

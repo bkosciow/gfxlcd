@@ -1,5 +1,4 @@
 import sys
-from nose.tools import assert_equal
 sys.path.append("../../")
 from gfxlcd.driver.ili9325.gpio import GPIO
 from gfxlcd.driver.ili9325.ili9325 import ILI9325
