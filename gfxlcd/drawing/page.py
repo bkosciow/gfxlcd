@@ -1,6 +1,7 @@
 """Page drawing algorithm"""
 import abc
 from gfxlcd.drawing.pixel import Pixel
+from PIL import Image
 
 
 class Page(Pixel, metaclass=abc.ABCMeta):
@@ -126,6 +127,8 @@ class Page(Pixel, metaclass=abc.ABCMeta):
 
     def draw_image(self, pos_x, pos_y, image):
         """draw a PIL image"""
+        if isinstance(image, str):
+            image = Image.open(image)
         image_file = image.convert('L')
         width, height = image_file.size
         offset_x = 0
