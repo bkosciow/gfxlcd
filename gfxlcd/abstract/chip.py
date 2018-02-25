@@ -41,9 +41,12 @@ class Chip(metaclass=abc.ABCMeta):
     @color.setter
     def color(self, rgb):
         """set (R, G, B) colour """
-        self.options['color'] = {
-            'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
-        }
+        if isinstance(rgb, int):
+            self.options['color'] = rgb
+        else:
+            self.options['color'] = {
+                'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
+            }
 
     @property
     def background_color(self):
@@ -53,9 +56,12 @@ class Chip(metaclass=abc.ABCMeta):
     @background_color.setter
     def background_color(self, rgb):
         """set (R, G, B) background colour """
-        self.options['background_color'] = {
-            'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
-        }
+        if isinstance(rgb, int):
+            self.options['background_color'] = rgb
+        else:
+            self.options['background_color'] = {
+                'R': rgb[0], 'G': rgb[1], 'B': rgb[2]
+            }
 
     @property
     def auto_flush(self):

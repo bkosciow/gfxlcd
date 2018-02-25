@@ -216,6 +216,17 @@ class TestPageDrawing(object):
         buffer[5][1] = 8
         assert_equal(self.lcd.buffer, buffer)
 
+    def test_draw_pixels_clear_then(self):
+        self.lcd.draw_pixel(1, 1)
+        self.lcd.draw_pixel(2, 1)
+        self.lcd.draw_pixel(2, 2)
+        buffer = self.get_buffer()
+        buffer[2][0] = 4
+        self.lcd.draw_pixel(1, 1, self.lcd.background_color)
+        self.lcd.draw_pixel(2, 1, self.lcd.background_color)
+        self.draw_buffer(self.lcd.buffer)
+        assert_equal(self.lcd.buffer, buffer)
+
     def draw_buffer(self, buffer):
         for page in range(2):
             print(page)

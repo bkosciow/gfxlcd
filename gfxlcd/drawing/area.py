@@ -1,6 +1,7 @@
 """Area drawing algorithm"""
 import itertools
 from gfxlcd.drawing.pixel import Pixel
+from PIL import Image
 
 
 class Area(Pixel):
@@ -103,6 +104,8 @@ class Area(Pixel):
 
     def draw_image(self, pos_x, pos_y, image):
         """draw a PIL image"""
+        if isinstance(image, str):
+            image = Image.open(image)
         image_file = image.convert('RGB')
         width, height = image_file.size
         self._set_area(

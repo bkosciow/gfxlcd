@@ -35,13 +35,6 @@ class NJU6450(Page, Chip):
             self.driver.cmd(0xB8 | pos_y, 1)
             self.driver.cmd(0x00 | (pos_x - width//2), 1)
 
-    def _convert_color(self, color):
-        """convert color to avaiable one"""
-        if color['R'] == 0 and color['G'] == 0 and color['B'] == 0:
-            return 0
-
-        return 1
-
     def flush(self, force=None):
         """flush buffer to device
         :force - boolean|None"""

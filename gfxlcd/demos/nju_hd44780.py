@@ -16,7 +16,8 @@ def test1():
     print(drv.width, drv.height)
     lcd = CharLCD(drv.width, drv.height, drv, 0, 0)
     lcd.init()
-    lcd.write('First')
+    lcd.write('First Line')
+    lcd.write(' it is not', 0, 0)
 
     lcd.write('HD44780', 6, 3)
     lcd.flush()

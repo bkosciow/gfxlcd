@@ -22,13 +22,6 @@ class NullPage(Page, Chip):
         Page.init(self)
         Chip.init(self)
 
-    def _convert_color(self, color):
-        """convert color to avaiable one"""
-        if color['R'] == 0 and color['G'] == 0 and color['B'] == 0:
-            return 0
-
-        return 1
-
     def flush(self, force=None):
         """flush buffer to device
         :force - boolean|None"""

@@ -1,3 +1,7 @@
+0.8.3
+    - draw_image with filename or PIL object
+0.8.2
+    - fix background colour in Page drawing
 0.8.1
     - clean up
 0.8.0
