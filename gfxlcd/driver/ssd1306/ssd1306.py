@@ -28,6 +28,8 @@ class SSD1306(Page, Chip):
         Chip.__init__(self, width, height, driver, auto_flush)
         Page.__init__(self, driver)
         self.rotation = 0
+        self.offset_j = 1
+        self.xy_callback = None
 
     def init(self):
         """inits a device"""
@@ -87,8 +89,10 @@ class SSD1306(Page, Chip):
             else:
                 width, height = self.height, self.width
             for j in range(0, height//8):
-                self.set_area(0, j, width-1, j+1)
+                self.set_area(0, j, width-1, j+self.offset_j)
                 for i in range(0, width):
+                    if self.xy_callback is not None:
+                        (i, j) = self.xy_callback(self, i, j)
                     self.driver.data(self.get_page_value(i, j))
 
     def set_area(self, pos_x1, pos_y1, pos_x2, pos_y2):

@@ -9,6 +9,7 @@ Supported:
 - ili9325 via GPIO
 - ssd1306 via SPI
 - nju6450 via GPIO
+- sh1106 via SPI
 
 And for touch panels:
 
@@ -29,7 +30,7 @@ Demos are in demos directory
 
 LCD initialization
 ===
-## SSD1306
+## SSD1306 
 ### SPI
 
     from driver.ssd1306.spi import SPI
@@ -47,7 +48,33 @@ If you want to set your own pins:
     }
     o = SSD1306(128, 64, drv)
     o.init()
+
+You can add point transformation callback, used during flush:
+
+    def transform_ij(lcd, i, j):
+        offset_width = lcd.height // 2
+        if 0 <= i < offset_width:
+            i = i + offset_width
+        else:
+            i = i - offset_width
     
+        return (i,j)
+
+
+    lcd.xy_callback = transform_ij
+
+## SH1106
+
+Based on SSD1306, has the same functions
+
+### SPI
+
+    from gfxlcd.driver.sh1106.spi import SPI
+    from gfxlcd.driver.sh1106.sh1106 import SH1106
+    drv = SPI()
+    lcd = SH1106(132, 64, drv)
+
+
 ## NJU6450
 ### GPIO
     

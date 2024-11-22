@@ -1,3 +1,6 @@
+0.8.4
+    - add SH1106
+    - add xy_callback
 0.8.3
     - draw_image with filename or PIL object
 0.8.2
