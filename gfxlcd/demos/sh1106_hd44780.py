@@ -18,7 +18,8 @@ def transform_ij(lcd, i, j):
 
 def test1():
     """demo """
-    lcd = SH1106(132, 64, SPI())
+    # lcd = SH1106(132, 64, SPI())
+    lcd = SH1106(132, 64, SPI(CS=21))
     lcd.xy_callback = transform_ij
     drv = HD44780(lcd, True)
     print(drv.width, drv.height)

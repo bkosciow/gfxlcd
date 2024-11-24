@@ -45,9 +45,15 @@ If you want to set your own pins:
     drv.pins = {
         'RST': 13,
         'DC': 6,
+        'CS': None,
     }
     o = SSD1306(128, 64, drv)
     o.init()
+
+or
+
+    drv = SPI(RST=31, CS=3)
+
 
 You can add point transformation callback, used during flush:
 
@@ -73,6 +79,10 @@ Based on SSD1306, has the same functions
     from gfxlcd.driver.sh1106.sh1106 import SH1106
     drv = SPI()
     lcd = SH1106(132, 64, drv)
+
+or
+  
+    lcd = SH1106(132, 64, SPI(CS=21))
 
 
 ## NJU6450

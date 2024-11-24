@@ -17,7 +17,8 @@ def transform_ij(lcd, i, j):
     return (i,j)
 
 
-lcd_oled = SH1106(132, 64, SPI())
+# lcd_oled = SH1106(132, 64, SPI())
+lcd_oled = SH1106(132, 64, SPI(CS=21))
 lcd_oled.rotation = 270
 lcd_oled.xy_callback = transform_ij
 

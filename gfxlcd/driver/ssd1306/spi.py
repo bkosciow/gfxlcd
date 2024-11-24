@@ -8,24 +8,30 @@ GPIO.setmode(GPIO.BCM)
 
 class SPI(Driver):
     """SPI driver"""
-    def __init__(self):
+    def __init__(self, RST=13, DC=6, CS=None):
         self.pins = {
-            'RST': 13,
-            'DC': 6,
+            'RST': RST,
+            'DC': DC,
+            'CS': CS,
         }
         self.spi = None
 
     def init(self):
         """init sequence"""
         for pin in self.pins:
-            GPIO.setup(self.pins[pin], GPIO.OUT)
-            GPIO.output(self.pins[pin], 0)
+            if self.pins[pin]:
+                GPIO.setup(self.pins[pin], GPIO.OUT)
+                if pin == 'CS':
+                    GPIO.output(self.pins[pin], 1)
+                else:
+                    GPIO.output(self.pins[pin], 0)
 
-        spi = spidev.SpiDev()
-        spi.open(0, 0)
-        spi.max_speed_hz = 8000000
-        spi.mode = 0
-        self.spi = spi
+        if not self.spi:
+            spi = spidev.SpiDev()
+            spi.open(0, 0)
+            spi.max_speed_hz = 8000000
+            spi.mode = 0
+            self.spi = spi
 
     def reset(self):
         """reset device"""
@@ -38,11 +44,19 @@ class SPI(Driver):
 
     def cmd(self, data, enable=None):
         """send command to device"""
+        if self.pins['CS']:
+            GPIO.output(self.pins['CS'], 0)
         GPIO.output(self.pins['DC'], 0)
         self.spi.xfer2([data])
+        if self.pins['CS']:
+            GPIO.output(self.pins['CS'], 1)
 
     def data(self, data, enable=None):
         """send data to device"""
+        if self.pins['CS']:
+            GPIO.output(self.pins['CS'], 0)
         GPIO.output(self.pins['DC'], 1)
         self.spi.xfer2([data])
         GPIO.output(self.pins['DC'], 0)
+        if self.pins['CS']:
+            GPIO.output(self.pins['CS'], 1)

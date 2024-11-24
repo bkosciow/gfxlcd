@@ -1,3 +1,5 @@
+0.8.5
+    - add CS (default None = always ground) to SSD1306 and SH1106
 0.8.4
     - add SH1106
     - add xy_callback

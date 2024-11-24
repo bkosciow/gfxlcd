@@ -1,6 +1,6 @@
 [project]
 name = "GfxLCD"
-version = "0.8.4"
+version = "0.8.5"
 description = "gfxlcd is a lib for graphical lcds: ILI9328, SSD1306, SH1106, NJU6450, touch panel: AD7843 @ Raspberry Pi."
 readme = "readme.md"
 authors =[{name="Bartosz Kościów", email="kosci1@gmail.com"}]
